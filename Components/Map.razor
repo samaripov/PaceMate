@@ -1,9 +1,19 @@
-﻿@inject IJSRuntime JSRuntime
-
-<h3>OpenStreetMap</h3>
+﻿@using System.Text.Json.Nodes
+@using PaceMate.Objects
+@using System.Globalization
+@inject IJSRuntime JSRuntime
 <div id="map" style="height: 50vh;"></div>
+<p>@latitude @longitude</p>
 
 @code {
+    private string? latitude = null;
+    private string? longitude = null;
+    private async Task getLocation()
+    {
+        var coordinates = await JSRuntime.InvokeAsync<Coordinates>("getCurrentLocation");
+        latitude = coordinates.Latitude;
+        longitude = coordinates.Longitude;
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -14,16 +24,17 @@
 
     private async void InitializeMap()
     {
+        await getLocation();
         // JavaScript logic to initiate the map
-        var mapScript = @"
-            var map = L.map('map').setView([51.505, -0.09], 13);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 19,
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
-            L.marker([51.5, -0.09]).addTo(map)
-                .bindPopup('A custom marker.')
-                .openPopup();
+        var mapScript = @$"
+            var map = L.map('map').setView([{latitude}, {longitude}], 13);
+            L.tileLayer('https://{{s}}.tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png', {{
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+            }}).addTo(map);
+            L.marker([{latitude}, {longitude}]).addTo(map)
+            .bindPopup('A custom marker.')
+            .openPopup();
         ";
 
         await JSRuntime.InvokeVoidAsync("eval", mapScript);
