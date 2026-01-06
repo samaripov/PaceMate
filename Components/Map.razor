@@ -1,5 +1,31 @@
-﻿<h3>Map</h3>
+﻿@inject IJSRuntime JSRuntime
+
+<h3>OpenStreetMap</h3>
+<div id="map" style="height: 50vh;"></div>
 
 @code {
-    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            InitializeMap();
+        }
+    }
+
+    private async void InitializeMap()
+    {
+        // JavaScript logic to initiate the map
+        var mapScript = @"
+            var map = L.map('map').setView([51.505, -0.09], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            L.marker([51.5, -0.09]).addTo(map)
+                .bindPopup('A custom marker.')
+                .openPopup();
+        ";
+
+        await JSRuntime.InvokeVoidAsync("eval", mapScript);
+    }
 }
