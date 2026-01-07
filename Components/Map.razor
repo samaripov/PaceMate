@@ -5,9 +5,48 @@
 <div id="map" style="height: 600px;"></div>
 <p>@latitude @longitude</p>
 
+@if (trackingLocation)
+{
+    <button @onclick="StopTracking">Stop Tracking</button>
+}
+else
+{
+    <button @onclick="StartTracking">Start Tracking</button>
+}
+
 @code {
     private string? latitude = null;
     private string? longitude = null;
+    private System.Timers.Timer timer;
+    private bool trackingLocation = false;
+
+    protected override void OnInitialized()
+    {
+        timer = new System.Timers.Timer(100); // Set the interval to 200 ms
+        timer.Elapsed += async (sender, e) => await getLocation();
+    }
+    private void StartTracking() {
+        trackingLocation = true;
+        timer.Start();
+    }
+    private void StopTracking() {
+        trackingLocation = false;
+        timer?.Stop();
+    }
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await getLocation();
+            await moveLocationMarker();
+            await InitializeMap();
+        }
+    }
+
     private async Task getLocation()
     {
         try
@@ -15,6 +54,7 @@
             var coordinates = await JSRuntime.InvokeAsync<Coordinates>("getCurrentLocation");
             latitude = coordinates.Latitude;
             longitude = coordinates.Longitude;
+            Console.WriteLine($"{latitude} {longitude}");
             StateHasChanged();
         }
         catch (Exception ex)
@@ -23,16 +63,9 @@
         }
     }
 
-    private async Task moveLocationMarker() {
-        var coordinates = await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
-    }
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    private async Task moveLocationMarker()
     {
-        await getLocation();
-        await moveLocationMarker();
-        if(firstRender) {
-            await InitializeMap();
-        }
+        var coordinates = await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
     }
 
     private async Task InitializeMap()
