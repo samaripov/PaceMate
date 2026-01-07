@@ -6,21 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PaceMate</title>
     <base href="/" />
-    <link href="_framework/dotnet.p8dfnh5baj.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-N6TkQwNrEhm5tkz31wHHTAR+Y5/pE5B9GlBIEyxsXIY=" />
+    <link href="_framework/dotnet.jkns76qvfh.js" rel="preload" as="script" fetchpriority="high" crossorigin="anonymous" integrity="sha256-UwVs/yMM4XlyjREWGGi/mXkWMrkvN4uGI1Yn4oMamJo=" />
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="PaceMate.styles.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
     <script type="importmap">{
   "imports": {
     "./_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.lib.module.js": "./_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js",
     "./_framework/blazor.webassembly.js": "./_framework/blazor.webassembly.66stpp682q.js",
+    "./_framework/dotnet.js": "./_framework/dotnet.jkns76qvfh.js",
     "./_framework/dotnet.native.js": "./_framework/dotnet.native.cs8mcre4gh.js",
-    "./_framework/dotnet.js": "./_framework/dotnet.p8dfnh5baj.js",
     "./_framework/dotnet.runtime.js": "./_framework/dotnet.runtime.0j6ezsi0n0.js",
-    "./js/getCurrentLocation.js": "./js/getCurrentLocation.jahrgrux3w.js",
+    "./js/MapFunctions.js": "./js/MapFunctions.s87olvhhcc.js",
     "./lib/bootstrap/dist/js/bootstrap.js": "./lib/bootstrap/dist/js/bootstrap.aczwl0hzcq.js",
     "./lib/bootstrap/dist/js/bootstrap.bundle.js": "./lib/bootstrap/dist/js/bootstrap.bundle.i3lio5ytzj.js",
     "./lib/bootstrap/dist/js/bootstrap.bundle.min.js": "./lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js",
@@ -34,14 +38,14 @@
     "./_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.lib.module.js": "sha256-A8e6zZwhOqf7lDQqbbCYcAUv4wGE9aQxOo4WyYxR//0=",
     "./_framework/blazor.webassembly.66stpp682q.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
     "./_framework/blazor.webassembly.js": "sha256-3lCWrko3zwspV40aQhs2S/IMkRSarnHRKIdkHhuXIBA=",
-    "./_framework/dotnet.js": "sha256-N6TkQwNrEhm5tkz31wHHTAR+Y5/pE5B9GlBIEyxsXIY=",
+    "./_framework/dotnet.jkns76qvfh.js": "sha256-UwVs/yMM4XlyjREWGGi/mXkWMrkvN4uGI1Yn4oMamJo=",
+    "./_framework/dotnet.js": "sha256-UwVs/yMM4XlyjREWGGi/mXkWMrkvN4uGI1Yn4oMamJo=",
     "./_framework/dotnet.native.cs8mcre4gh.js": "sha256-/I3SDHIle7heAxlUGBrgxax+lkKyWyRLBVEJmTHJSCs=",
     "./_framework/dotnet.native.js": "sha256-/I3SDHIle7heAxlUGBrgxax+lkKyWyRLBVEJmTHJSCs=",
-    "./_framework/dotnet.p8dfnh5baj.js": "sha256-N6TkQwNrEhm5tkz31wHHTAR+Y5/pE5B9GlBIEyxsXIY=",
     "./_framework/dotnet.runtime.0j6ezsi0n0.js": "sha256-jCsbbdXoVd1zzGc0fQT2sz4mKuv0ANdurPVGo5Sc2jg=",
     "./_framework/dotnet.runtime.js": "sha256-jCsbbdXoVd1zzGc0fQT2sz4mKuv0ANdurPVGo5Sc2jg=",
-    "./js/getCurrentLocation.jahrgrux3w.js": "sha256-tfP1cdHYQ+qXIhs9ovDYn3zYkLtVlb6fB+UhXW0+kd8=",
-    "./js/getCurrentLocation.js": "sha256-tfP1cdHYQ+qXIhs9ovDYn3zYkLtVlb6fB+UhXW0+kd8=",
+    "./js/MapFunctions.js": "sha256-VGQ8zdz3IdizRwxpXyQE84O/zR3ehT1d+0uKiZE9O64=",
+    "./js/MapFunctions.s87olvhhcc.js": "sha256-VGQ8zdz3IdizRwxpXyQE84O/zR3ehT1d+0uKiZE9O64=",
     "./lib/bootstrap/dist/js/bootstrap.aczwl0hzcq.js": "sha256-6n+4HAIPmJdx89xSRPWuGDH6XxbrX1FtTL0FVLQXG4I=",
     "./lib/bootstrap/dist/js/bootstrap.bundle.i3lio5ytzj.js": "sha256-shjqPY8X4d7rCcuDVWmrzA3UlEQXWE469MdEuL+1dNI=",
     "./lib/bootstrap/dist/js/bootstrap.bundle.js": "sha256-shjqPY8X4d7rCcuDVWmrzA3UlEQXWE469MdEuL+1dNI=",
@@ -72,7 +76,8 @@
         <a href="." class="reload">Reload</a>
         <span class="dismiss">🗙</span>
     </div>
-    <script src="js/getCurrentLocation.js"></script>
+    <script src="js/MapFunctions.js"></script>
+    <script>console.log("Scripts loaded")</script>
     <script src="_framework/blazor.webassembly.66stpp682q.js"></script>
 </body>
 
