@@ -22,9 +22,14 @@
             Console.WriteLine($"Error retrieving location: {ex.Message}");
         }
     }
+
+    private async Task moveLocationMarker() {
+        var coordinates = await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await getLocation();
+        await moveLocationMarker();
         if(firstRender) {
             await InitializeMap();
         }

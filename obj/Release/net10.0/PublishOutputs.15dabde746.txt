@@ -1,0 +1,4 @@
+/home/sam/Desktop/Blazor/PaceMate/bin/Release/net10.0/publish/wwwroot/index.html
+/home/sam/Desktop/Blazor/PaceMate/bin/Release/net10.0/publish/PaceMate.runtimeconfig.json
+/home/sam/Desktop/Blazor/PaceMate/bin/Release/net10.0/publish/dotnet.js
+/home/sam/Desktop/Blazor/PaceMate/bin/Release/net10.0/publish/web.config
