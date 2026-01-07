@@ -4,7 +4,7 @@
 @inject IJSRuntime JSRuntime
 <div id="map" style="height: 600px;"></div>
 <p>@latitude @longitude</p>
-
+<p>Time: @time</p>
 @if (trackingLocation)
 {
     <button @onclick="StopTracking">Stop Tracking</button>
@@ -17,19 +17,40 @@ else
 @code {
     private string? latitude = null;
     private string? longitude = null;
-    private System.Timers.Timer timer;
     private bool trackingLocation = false;
+    private System.Timers.Timer timer;
+    private DateTime startTime;
+    private string time = "";
 
     protected override void OnInitialized()
     {
         timer = new System.Timers.Timer(100); // Set the interval to 200 ms
-        timer.Elapsed += async (sender, e) => await getLocation();
+        timer.Elapsed += async (sender, e) => await TrackLiveLocation();
     }
-    private void StartTracking() {
+
+    private string FormatElapsedTime(TimeSpan timeSpan)
+    {
+        return string.Format("{0:D2}:{1:D2}:{2:D2}",
+        timeSpan.Hours, timeSpan.Minutes, timeSpan.Seconds);
+    }
+    private async Task TrackLiveLocation()
+    {
+        if (trackingLocation)
+        {
+            TimeSpan elapsedTime = DateTime.Now - startTime;
+            time = FormatElapsedTime(elapsedTime);
+        }
+        await getLocation();
+        await moveLocationMarker();
+    }
+    private void StartTracking()
+    {
         trackingLocation = true;
+        startTime = DateTime.Now;
         timer.Start();
     }
-    private void StopTracking() {
+    private void StopTracking()
+    {
         trackingLocation = false;
         timer?.Stop();
     }
