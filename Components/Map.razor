@@ -5,6 +5,8 @@
 <div id="map" style="height: 600px;"></div>
 <p>@latitude @longitude</p>
 <p>Time: @time</p>
+<p>Distance: @distanceKM KM</p>
+<p>Speed: @speedKMH KM/h</p>
 @if (trackingLocation)
 {
     <button @onclick="StopTracking">Stop Tracking</button>
@@ -15,16 +17,19 @@ else
 }
 
 @code {
-    private string? latitude = null;
-    private string? longitude = null;
+    private double latitude = 0.0;
+    private double longitude = 0.0;
     private bool trackingLocation = false;
     private System.Timers.Timer timer;
     private DateTime startTime;
     private string time = "";
+    private double distanceKM = 0.0;
+    private double speedKMH = 0.0;
+    private Coordinates[] lastTwoCoordinates = new Coordinates[2] { new Coordinates(), new Coordinates() };
 
     protected override void OnInitialized()
     {
-        timer = new System.Timers.Timer(100); // Set the interval to 200 ms
+        timer = new System.Timers.Timer(100);
         timer.Elapsed += async (sender, e) => await TrackLiveLocation();
     }
 
@@ -42,7 +47,40 @@ else
         }
         await getLocation();
         await moveLocationMarker();
+
+        //Adding the coordinates to the list
+        lastTwoCoordinates[0] = lastTwoCoordinates[1];
+        lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
+
+        var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
+        distanceKM += lastDistanceChange;
+        Console.WriteLine(distanceKM);
+        speedKMH = lastDistanceChange/(0.1 / 3600);
+        await drawLine();
     }
+
+    private Double calculateDistanceOfLastTwoPointsInKM() {
+        double R = 6371; // Radius of the Earth in kilometers
+        double lat1 = lastTwoCoordinates[0].Latitude;
+        double lon1 = lastTwoCoordinates[0].Longitude;
+        double lat2 = lastTwoCoordinates[1].Latitude;
+        double lon2 = lastTwoCoordinates[1].Longitude;
+
+        // Convert degrees to radians
+        lat1 = lat1 * (Math.PI / 180);
+        lat2 = lat2 * (Math.PI / 180);
+        double dLat = (lat2 - lat1);
+        double dLon = (lon2 - lon1);
+
+        double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(lat1) * Math.Cos(lat2) *
+                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+        double distance = R * c; // Distance in kilometers
+        return distance;
+    }
+
     private void StartTracking()
     {
         trackingLocation = true;
@@ -63,6 +101,8 @@ else
         if (firstRender)
         {
             await getLocation();
+            lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
+            lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
             await moveLocationMarker();
             await InitializeMap();
         }
@@ -83,10 +123,18 @@ else
             Console.WriteLine($"Error retrieving location: {ex.Message}");
         }
     }
-
+    private async Task drawLine() {
+        await JSRuntime.InvokeAsync<Coordinates>(
+            "drawLine",
+            lastTwoCoordinates[0].Latitude,
+            lastTwoCoordinates[0].Longitude,
+            lastTwoCoordinates[1].Latitude,
+            lastTwoCoordinates[1].Longitude
+        );
+    }
     private async Task moveLocationMarker()
     {
-        var coordinates = await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
+        await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
     }
 
     private async Task InitializeMap()
