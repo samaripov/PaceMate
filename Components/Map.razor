@@ -55,7 +55,7 @@ else
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
         distanceKM += lastDistanceChange;
         Console.WriteLine(distanceKM);
-        speedKMH = lastDistanceChange/(0.1 / 3600);
+        speedKMH = lastDistanceChange > 0 ? lastDistanceChange/(0.1 / 3600) : speedKMH;
         await drawLine();
     }
 
