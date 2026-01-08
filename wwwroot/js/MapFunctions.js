@@ -26,9 +26,9 @@ window.initializeMap = async (latitude, longitude) => {
 
         window.map = L.map("map").setView([latitude, longitude], 22);
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            attribution: 'Tiles © Esri'
         }).addTo(window.map);
 
         window.marker = L.marker([latitude, longitude]).addTo(window.map);

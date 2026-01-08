@@ -2,19 +2,25 @@
 @using PaceMate.Objects
 @using System.Globalization
 @inject IJSRuntime JSRuntime
-<div id="map" style="height: 600px;"></div>
-<p>@latitude @longitude</p>
-<p>Time: @time</p>
-<p>Distance: @distanceKM KM</p>
-<p>Speed: @speedKMH KM/h</p>
-@if (trackingLocation)
-{
-    <button @onclick="StopTracking">Stop Tracking</button>
-}
-else
-{
-    <button @onclick="StartTracking">Start Tracking</button>
-}
+
+<main>
+    <div id="map"></div>
+
+    <div class="horizontal-container">
+        <p>@time</p>
+        <p>@distanceKM KM</p>
+        <p>@speedKMH KM/h</p>
+    </div>
+
+    @if (trackingLocation)
+    {
+        <button class="stop" @onclick="StopTracking">STOP RUN</button>
+    }
+    else
+    {
+        <button class="start" @onclick="StartTracking">START RUN</button>
+    }
+</main>
 
 @code {
     private double latitude = 0.0;
@@ -22,7 +28,7 @@ else
     private bool trackingLocation = false;
     private System.Timers.Timer timer;
     private DateTime startTime;
-    private string time = "";
+    private string time = "00:00:00";
     private double distanceKM = 0.0;
     private double speedKMH = 0.0;
     private Coordinates[] lastTwoCoordinates = new Coordinates[2] { new Coordinates(), new Coordinates() };

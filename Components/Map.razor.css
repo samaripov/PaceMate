@@ -1,0 +1,50 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    border: none;
+    color: white;
+    font-size: 2rem;
+    font-weight: 1000;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin: 0.5rem;
+}
+button.start {
+    background: rgb(13, 194, 13);
+}
+button.start:hover {
+    background: rgb(16, 114, 16);
+}
+
+button.stop {
+    background: rgb(228, 12, 12);
+}
+button.stop:hover {
+    background: rgb(153, 11, 11);
+}
+
+#map {
+    height: 75vh;
+    width: 100%;
+}
+
+.horizontal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem; 
+    width: 100%;
+    background: rgb(0, 140, 255);
+    padding-block: 1rem;
+}
+
+.horizontal-container p {
+    margin: 0;
+    color: white;
+    font-weight: 1000;
+    font-size: 2rem;
+}
