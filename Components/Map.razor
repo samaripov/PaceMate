@@ -25,7 +25,7 @@
     </div>
 
     @if (goalState.isGoalReached()) {
-        <button class="primary stick-to-bottom fill-btn">SAVE RUN</button>
+        <button class="primary stick-to-bottom fill-btn" @onclick="SaveRun">SAVE RUN</button>
     }
     else if (trackingLocation)
     {
@@ -56,7 +56,10 @@
         timer = new System.Timers.Timer(1);
         timer.Elapsed += async (sender, e) => await TrackLiveLocation();
     }
-
+    private void SaveRun() {
+        goalState.resetState();
+        Navigation.NavigateTo("/");
+    }
     private string[] FormatElapsedTime(TimeSpan timeSpan)
     {
         var hours = string.Format("{0:D2}", timeSpan.Hours);
@@ -93,19 +96,23 @@
         goalState.distanceTraveled = distanceInKM;
 
         if(goalState.isGoalReached()) {
+            calculateTheSpeed(elapsedTime);
             StopTracking();
-            goalState.resetState();
         }
 
         //Calculate and update speed
-        double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds + (elapsedTime.Milliseconds / 1000.0);
-        speedKMH = ((distanceInKM * 1000) / timeInSeconds) * 3.6;
+        if(elapsedTime.Seconds % 1 == 0) {
+            calculateTheSpeed(elapsedTime);
+        }
 
         //Update user position
         await drawLine();
         StateHasChanged();
     }
-
+    private void calculateTheSpeed(TimeSpan elapsedTime) {
+        double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds + (elapsedTime.Milliseconds / 1000.0);
+        speedKMH = ((distanceInKM * 1000) / timeInSeconds) * 3.6;
+    }
     private string parseDistanceLabel() {
         var distance = distanceInKM.ToString("0.###");
         if(distanceInKM < 1) {
@@ -154,7 +161,6 @@
     {
         trackingLocation = false;
         timer?.Stop();
-        StateHasChanged();
     }
     public void Dispose()
     {
