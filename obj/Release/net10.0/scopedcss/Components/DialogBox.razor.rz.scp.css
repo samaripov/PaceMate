@@ -1,6 +1,6 @@
 .module[b-9xu4w30pfa] {
     position: absolute;
-    background: rgba(128, 128, 128, 0.233);
+    background: rgba(128, 128, 128, 0.726);
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -11,9 +11,9 @@
 .module .content[b-9xu4w30pfa] {
     background: white;
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding:0.5rem;
     min-width: 20rem;
-    min-height: 20rem;
+    min-height: fit-content;
 }
 
 .visable[b-9xu4w30pfa] {
