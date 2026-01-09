@@ -25,7 +25,7 @@
     </div>
 
     @if (goalState.isGoalReached()) {
-        <button class="primary stick-to-bottom fill-btn" @onclick="StopTracking">SAVE RUN</button>
+        <button class="primary stick-to-bottom fill-btn">SAVE RUN</button>
     }
     else if (trackingLocation)
     {
@@ -77,7 +77,7 @@
     {
         TimeSpan elapsedTime = DateTime.Now - startTime;
         time = FormatElapsedTime(elapsedTime);
-        
+
         await getLocation();
         await moveLocationMarker();
 
@@ -88,7 +88,7 @@
         //Calculate distance delta
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
         distanceInKM += lastDistanceChange;
-        
+
         //Updated distance goal state
         goalState.distanceTraveled = distanceInKM;
         StateHasChanged();
@@ -96,7 +96,7 @@
         if(goalState.isGoalReached()) {
             StopTracking();
         }
-        
+
         //Calculate and update speed
         double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds + (elapsedTime.Milliseconds / 1000.0);
         speedKMH = ((distanceInKM * 1000) / timeInSeconds) * 3.6;
@@ -139,8 +139,12 @@
         return distanceInKM;
     }
 
-    private void StartTracking()
+    private async Task StartTracking()
     {
+        await getLocation();
+        lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
+        lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
+        
         trackingLocation = true;
         startTime = DateTime.Now;
         timer.Start();
@@ -160,9 +164,6 @@
         if (firstRender)
         {
             await getLocation();
-            lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
-            lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
-
             await moveLocationMarker();
             await InitializeMap();
         }
