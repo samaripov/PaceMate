@@ -11,9 +11,7 @@ a, .btn-link {
     color: #0071c1;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #2b87e4;
+.btn {
     border: none;
     display: block;
     text-decoration: none;
@@ -26,7 +24,15 @@ a, .btn-link {
     width: calc(100% - 1rem);
     box-sizing: border-box;
 }
-.btn-primary:hover {
+.cancel {
+    color: white;
+    background: linear-gradient(45deg, #f7885c, #eb1a1a);
+}
+.primary {
+    color: #fff;
+    background-color: #2b87e4;
+}
+.primary:hover {
     background: #1b6ec2;
 }
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {

@@ -1,9 +1,10 @@
 @inject NavigationManager Navigation
+@inject ModuleState moduleState
 
-<div class="module @(moduleVisable ? "visable" : "hidden")">
+<div class="module @(moduleState.Visible ? "visable" : "hidden")">
     <div class="content">
         @ChildContent
-        <button @onclick="confirm" class="btn-primary">Confirm</button>
+        <button @onclick="cancel" class="btn cancel">Cancel</button>
     </div>
 </div>
 
@@ -11,10 +12,7 @@
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
-    private bool moduleVisable = true;
-
-    private void confirm(){
-        moduleVisable = false;
-        Navigation.NavigateTo("/run");
+    private void cancel(){
+        moduleState.Visible = false;
     }
 }

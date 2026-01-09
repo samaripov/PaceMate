@@ -1,23 +1,20 @@
 ﻿@page "/"
 @using PaceMate.Components
-
+@inject ModuleState moduleState
 <PageTitle>Home</PageTitle>
 
-@if (runType is not "") {
+@if (moduleState.Visible) {
     <DialogBox>
-        <p>@runType</p>
+        <button @onclick="runForDistance" class="btn primary">Run for Distance</button>
+        <button @onclick="runForTime" class="btn primary">Run for Time</button>
     </DialogBox>
 }
 
-<button @onclick="runForDistance" class="btn-primary">Run for Distance</button>
-<button @onclick="runForTime" class="btn-primary">Run for Time</button>
+<button @onclick="() => {moduleState.Visible = true;}">Start Run</button>
 
 @code {
-    private string runType = "";
     private void runForDistance() {
-        runType = "distance";
     }
     private void runForTime() {
-        runType = "time";
     }
 }
