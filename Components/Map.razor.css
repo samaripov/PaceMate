@@ -30,8 +30,11 @@ button.stop:hover {
     width: 100%;
 }
 .info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     text-align: center;
-    background: linear-gradient(45deg, #3d98ff, #a90dcf);
+    background: linear-gradient(45deg, #40ca7e, #3cd8ff);
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
@@ -65,4 +68,8 @@ button.stop:hover {
     width: 100%;
     justify-content: space-evenly;
     align-items: center;
+}
+
+.horizontal-container p {
+    margin: 0;
 }

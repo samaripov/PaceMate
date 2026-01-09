@@ -2,7 +2,8 @@
 @using PaceMate.Objects
 @using System.Globalization
 
-@inject GoalState goalState;
+@inject NavigationManager Navigation
+@inject GoalState goalState
 @inject IJSRuntime JSRuntime
 
 <main>
@@ -15,17 +16,20 @@
             <p class="timer-small">@time[3]</p>
         </div>
         <div class="horizontal-container">
-            <p>@parseDistanceLabel()</p>
-            <p>@parseDistanceLabel()</p>
+            <p>@parseDistanceLabel()</p>    
+            <p>@($"{speedKMH:F2}") km/h</p>
         </div>
         @if (goalState.distanceGoal is not null) {
             <p>@goalState.untilGoalReachedLabel()</p>        
         }
     </div>
 
-    @if (trackingLocation)
+    @if (goalState.isGoalReached()) {
+        <button class="primary stick-to-bottom fill-btn" @onclick="StopTracking">SAVE RUN</button>
+    }
+    else if (trackingLocation)
     {
-        <button class="stop stick-to-bottom fill-btn" @onclick="StopTracking">FINISH</button>
+        <button class="stop stick-to-bottom fill-btn" @onclick="StopTracking">STOP</button>
     }
     else    
     {
@@ -45,8 +49,11 @@
     private Coordinates[] lastTwoCoordinates = new Coordinates[2];
 
     protected override void OnInitialized()
-    {
-        timer = new System.Timers.Timer(100);
+    {   
+        if(goalState.distanceGoal is null) {
+            Navigation.NavigateTo("/");
+        }
+        timer = new System.Timers.Timer(1);
         timer.Elapsed += async (sender, e) => await TrackLiveLocation();
     }
 
@@ -78,6 +85,7 @@
         lastTwoCoordinates[0] = lastTwoCoordinates[1];
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
 
+        //Calculate distance delta
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
         distanceInKM += lastDistanceChange;
         
@@ -85,7 +93,15 @@
         goalState.distanceTraveled = distanceInKM;
         StateHasChanged();
 
-        speedKMH = lastDistanceChange > 0 ? lastDistanceChange/(0.1 / 3600) : speedKMH;
+        if(goalState.isGoalReached()) {
+            StopTracking();
+        }
+        
+        //Calculate and update speed
+        double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds + (elapsedTime.Milliseconds / 1000.0);
+        speedKMH = ((distanceInKM * 1000) / timeInSeconds) * 3.6;
+
+        //Update user position
         await drawLine();
     }
 
@@ -133,6 +149,7 @@
     {
         trackingLocation = false;
         timer?.Stop();
+        StateHasChanged();
     }
     public void Dispose()
     {
