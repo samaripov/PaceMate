@@ -91,10 +91,10 @@
 
         //Updated distance goal state
         goalState.distanceTraveled = distanceInKM;
-        StateHasChanged();
 
         if(goalState.isGoalReached()) {
             StopTracking();
+            goalState.resetState();
         }
 
         //Calculate and update speed
@@ -103,6 +103,7 @@
 
         //Update user position
         await drawLine();
+        StateHasChanged();
     }
 
     private string parseDistanceLabel() {
@@ -144,7 +145,7 @@
         await getLocation();
         lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
-        
+
         trackingLocation = true;
         startTime = DateTime.Now;
         timer.Start();
