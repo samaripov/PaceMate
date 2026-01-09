@@ -8,6 +8,12 @@ public class GoalState
     
     public string untilGoalReachedLabel() {
         var distanceLeft = distanceGoal - distanceTraveled;
-        return (distanceLeft < 1) ? $"{distanceLeft} meters" : $"{distanceLeft} km";
+
+        if(distanceLeft < 1) {
+            var distanceInMeters = (int)((distanceLeft - Math.Truncate(distanceLeft ?? 0.0)) * 1000);
+            return $"{distanceInMeters}m";
+        } else {
+            return $"{distanceLeft}km";
+        }
     }
 }

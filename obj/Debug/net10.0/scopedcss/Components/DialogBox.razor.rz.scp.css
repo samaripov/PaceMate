@@ -11,9 +11,9 @@
 .module .content[b-9xu4w30pfa] {
     background: white;
     border-radius: 0.5rem;
-    padding: 1rem;
-    min-width: max-content;
-    min-height: max-content;
+    padding:0.5rem;
+    min-width: 20rem;
+    min-height: fit-content;
 }
 
 .visable[b-9xu4w30pfa] {

@@ -12,9 +12,9 @@
 .module .content[b-9xu4w30pfa] {
     background: white;
     border-radius: 0.5rem;
-    padding: 1rem;
-    min-width: max-content;
-    min-height: max-content;
+    padding:0.5rem;
+    min-width: 20rem;
+    min-height: fit-content;
 }
 
 .visable[b-9xu4w30pfa] {
@@ -34,9 +34,7 @@ main[b-v6wvnqmlap] {
 button[b-v6wvnqmlap] {
     border: none;
     color: white;
-    font-size: 2rem;
     font-weight: 1000;
-    padding: 1rem;
     width: 100%;
 }
 button.start[b-v6wvnqmlap] {
@@ -171,5 +169,11 @@ main[b-na6g0zj5za] {
         padding-left: 2rem !important;
         padding-right: 1.5rem !important;
     }
+}
+/* /Pages/Home.razor.rz.scp.css */
+.title[b-raqg60pauk] {
+    text-align: center;
+    margin: 0;
+    font-size: 3rem;
 }
 /* /Pages/RunMap.razor.rz.scp.css */

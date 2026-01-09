@@ -1,20 +1,59 @@
 ﻿@page "/"
 @using PaceMate.Components
 @inject ModuleState moduleState
+@inject NavigationManager Navigation
+@inject GoalState goalState
+
 <PageTitle>Home</PageTitle>
 
 @if (moduleState.Visible) {
     <DialogBox>
-        <button @onclick="runForDistance" class="btn primary">Run for Distance</button>
-        <button @onclick="runForTime" class="btn primary">Run for Time</button>
+        @if(runType == "") {
+            <h1 class="title">Run Goal</h1>
+            <button @onclick="runForDistance" class="btn primary">Distance</button>
+            <button @onclick="runForTime" class="btn primary">Time</button>
+        } else if (runType == "distance") {
+            <h1 class="title">Distance Goal</h1>
+            <EditForm EditContext="editContext" OnValidSubmit = "HandleValidSubmit">
+                <InputNumber id="numberInput" @bind-Value="inputNumber" placeholder="Distance Goal (e.g. 100)"/>
+                <select @bind="unit">
+                    <option value="meters">Meters</option>
+                    <option value="kilometers">Kilometers</option>
+                    <option value="miles">Miles</option>
+                </select>
+                 <button type="submit">Submit</button>
+            </EditForm>
+        } else if (runType == "time") {
+            <h1 class="title">Time</h1>
+        }
     </DialogBox>
 }
 
-<button class="btn primary stick-to-bottom fill-button" @onclick="() => {moduleState.Visible = true;}">Start Run</button>
+<button class="btn primary stick-to-bottom fill-button" @onclick="startRun">START</button>
 
 @code {
-    private void runForDistance() {
+    private EditContext editContext;
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(this);
     }
-    private void runForTime() {
+
+    private string runType = "";
+    private void startRun() {
+        moduleState.Visible = true;
+        runType = "";
+    }
+    private void runForDistance() => runType = "distance";
+    private void runForTime() => runType = "time";
+    
+    private double? inputNumber;
+    private string unit = "meters";
+    private void HandleValidSubmit() {
+        if(inputNumber.HasValue) {
+            goalState.distanceGoal = unit == "meters" ? inputNumber / 1000 : inputNumber;
+            Navigation.NavigateTo("/run");
+        }
+        moduleState.Visible = false;
     }
 }
