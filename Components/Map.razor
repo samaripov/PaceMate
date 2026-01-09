@@ -8,8 +8,7 @@
 
     <div class="horizontal-container">
         <p>@time</p>
-        <p>@distanceKM KM</p>
-        <p>@speedKMH KM/h</p>
+        <p>@parseDistanceLabel()</p>
     </div>
 
     @if (trackingLocation)
@@ -29,7 +28,7 @@
     private System.Timers.Timer timer;
     private DateTime startTime;
     private string time = "00:00:00";
-    private double distanceKM = 0.0;
+    private double distanceInKM = 0.0;
     private double speedKMH = 0.0;
     private Coordinates[] lastTwoCoordinates = new Coordinates[2] { new Coordinates(), new Coordinates() };
 
@@ -59,14 +58,24 @@
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
 
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
-        distanceKM += lastDistanceChange;
-        Console.WriteLine(distanceKM);
+        distanceInKM += lastDistanceChange;
+        Console.WriteLine(distanceInKM);
         speedKMH = lastDistanceChange > 0 ? lastDistanceChange/(0.1 / 3600) : speedKMH;
         await drawLine();
     }
 
+    private string parseDistanceLabel() {
+        var distanceParts = distanceInKM.ToString().Split(".");
+        var kilometers = distanceParts[0];
+        var meters = distanceParts[1].Substring(3);
+        if(distanceInKM < 1) {
+            return $"{meters} meters";
+        } else {
+            return $"{kilometers}.{(meters)} km";
+        }
+    }
     private Double calculateDistanceOfLastTwoPointsInKM() {
-        double R = 6371; // Radius of the Earth in kilometers
+        double R = 6371.2; // Radius of the Earth in kilometers
         double lat1 = lastTwoCoordinates[0].Latitude;
         double lon1 = lastTwoCoordinates[0].Longitude;
         double lat2 = lastTwoCoordinates[1].Latitude;
@@ -83,8 +92,8 @@
                 Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
         double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
-        double distance = R * c; // Distance in kilometers
-        return distance;
+        double distanceInKM = R * c;
+        return distanceInKM;
     }
 
     private void StartTracking()
