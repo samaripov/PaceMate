@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "PaceMate",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-g6hK1AJzsdDb23znStD8bKbLGMO24ZYuwKLZr5Gl69M=",
+    "hash": "sha256-DtdA0YHMdN9uWGy7VSBd3tFb13lcvGoIlavvVWWe+hs=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.cs8mcre4gh.js"
@@ -1039,15 +1039,15 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "PaceMate.wasm",
-        "name": "PaceMate.t2jscndr98.wasm",
-        "integrity": "sha256-lSc6Tr79NOlIOTo0ymv5buSRoJyAeL7AnuW7wAuYkWw="
+        "name": "PaceMate.xkz46cshtj.wasm",
+        "integrity": "sha256-IQOeiQGHL3huWWsgZbU6M5kRg1kZgyB7M2rnCL6xvqI="
       }
     ],
     "pdb": [
       {
         "virtualPath": "PaceMate.pdb",
-        "name": "PaceMate.ay27pun3qa.pdb",
-        "integrity": "sha256-siscqaBkiFJr2ok0eBkgBWILl4rs/o+2X2w4d6/lmNU="
+        "name": "PaceMate.cp11rfbzy9.pdb",
+        "integrity": "sha256-IDoNL09UrHuV6feAiT1f0WXnMLq7vwIBq0hau7IFE4Q="
       }
     ],
     "libraryInitializers": [

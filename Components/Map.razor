@@ -67,7 +67,8 @@
     private string parseDistanceLabel() {
         var distance = distanceInKM.ToString("0.###");
         if(distanceInKM < 1) {
-            return $"{distance} meters";
+            var distanceInMeters = (int)((distanceInKM - Math.Truncate(distanceInKM)) * 1000);
+            return $"{distanceInMeters} meters";
         } else {
             return $"{distance} km";
         }

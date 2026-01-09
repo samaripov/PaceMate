@@ -55,7 +55,6 @@ window.drawLine = async (lat1, lon1, lat2, lon2) => {
 
     if(!(lat1 == lat2 && lon1 == lon2)) {
         const rotation = calculateRotation(lat1, lon1, lat2, lon2);
-        document.querySelector('.leaflet-control-container').style.transform = `rotate(${rotation}deg)`;
         window.marker.setIcon(createLocationMarkerIcon(rotation));
     }
 }

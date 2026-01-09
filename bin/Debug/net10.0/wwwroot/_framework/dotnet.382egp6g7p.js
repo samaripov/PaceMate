@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "PaceMate",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-7WQ9AY0poyy9zMQbFU96atnU8t6ihUbj1xYnCPBfRd8=",
+    "hash": "sha256-DtdA0YHMdN9uWGy7VSBd3tFb13lcvGoIlavvVWWe+hs=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.cs8mcre4gh.js"
@@ -81,6 +81,11 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
         "virtualPath": "Microsoft.AspNetCore.Metadata.wasm",
         "name": "Microsoft.AspNetCore.Metadata.rci0o61dpz.wasm",
         "integrity": "sha256-FWM794OQzYuWpnEiTMMsEJoo9sjQS1M3lJzqb1WC+VE="
+      },
+      {
+        "virtualPath": "Microsoft.DotNet.HotReload.WebAssembly.Browser.wasm",
+        "name": "Microsoft.DotNet.HotReload.WebAssembly.Browser.vdogoxs6cm.wasm",
+        "integrity": "sha256-c1tB08GIbOIai2bA4PgA2IQ6tQSbxkg1YfB8lhzFdh4="
       },
       {
         "virtualPath": "Microsoft.Extensions.Configuration.wasm",
@@ -1034,15 +1039,25 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "PaceMate.wasm",
-        "name": "PaceMate.1wlu3o3120.wasm",
-        "integrity": "sha256-UX0fIyq1+W5KiArQ0SXhxfd5yUuri0av3GkUHxir96I="
+        "name": "PaceMate.xkz46cshtj.wasm",
+        "integrity": "sha256-IQOeiQGHL3huWWsgZbU6M5kRg1kZgyB7M2rnCL6xvqI="
       }
     ],
     "pdb": [
       {
         "virtualPath": "PaceMate.pdb",
-        "name": "PaceMate.kw802y0afk.pdb",
-        "integrity": "sha256-7Eg1KaJFsmavuHWQ5pYyuF04shJmPkXjpxgZrWOHgoM="
+        "name": "PaceMate.cp11rfbzy9.pdb",
+        "integrity": "sha256-IDoNL09UrHuV6feAiT1f0WXnMLq7vwIBq0hau7IFE4Q="
+      }
+    ],
+    "libraryInitializers": [
+      {
+        "name": "_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
+      }
+    ],
+    "modulesAfterConfigLoaded": [
+      {
+        "name": "../_content/Microsoft.DotNet.HotReload.WebAssembly.Browser/Microsoft.DotNet.HotReload.WebAssembly.Browser.99zm1jdh75.lib.module.js"
       }
     ]
   },
@@ -1061,7 +1076,6 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
         "System.ComponentModel.TypeConverter.EnableUnsafeBinaryFormatterInDesigntimeLicenseContextSerialization": false,
         "System.ComponentModel.TypeDescriptor.IsComObjectDescriptorSupported": false,
         "System.Data.DataSet.XmlSerializationIsSupported": false,
-        "System.Diagnostics.Debugger.IsSupported": false,
         "System.Diagnostics.Metrics.Meter.IsSupported": false,
         "System.Diagnostics.Tracing.EventSource.IsSupported": false,
         "System.GC.Server": true,
