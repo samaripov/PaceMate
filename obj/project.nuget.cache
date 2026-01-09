@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YaCUIega4i0=",
+  "dgSpecHash": "y4zu/y7sIBY=",
   "success": true,
   "projectFilePath": "/home/sam/Desktop/Blazor/PaceMate/PaceMate.csproj",
   "expectedPackageFiles": [
@@ -13,6 +13,7 @@
     "/home/sam/.nuget/packages/microsoft.aspnetcore.components.webassembly/10.0.1/microsoft.aspnetcore.components.webassembly.10.0.1.nupkg.sha512",
     "/home/sam/.nuget/packages/microsoft.aspnetcore.components.webassembly.devserver/10.0.1/microsoft.aspnetcore.components.webassembly.devserver.10.0.1.nupkg.sha512",
     "/home/sam/.nuget/packages/microsoft.aspnetcore.metadata/10.0.1/microsoft.aspnetcore.metadata.10.0.1.nupkg.sha512",
+    "/home/sam/.nuget/packages/microsoft.dotnet.hotreload.webassembly.browser/10.0.101/microsoft.dotnet.hotreload.webassembly.browser.10.0.101.nupkg.sha512",
     "/home/sam/.nuget/packages/microsoft.extensions.configuration/10.0.1/microsoft.extensions.configuration.10.0.1.nupkg.sha512",
     "/home/sam/.nuget/packages/microsoft.extensions.configuration.abstractions/10.0.1/microsoft.extensions.configuration.abstractions.10.0.1.nupkg.sha512",
     "/home/sam/.nuget/packages/microsoft.extensions.configuration.binder/10.0.1/microsoft.extensions.configuration.binder.10.0.1.nupkg.sha512",

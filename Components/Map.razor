@@ -30,7 +30,7 @@
     private string time = "00:00:00";
     private double distanceInKM = 0.0;
     private double speedKMH = 0.0;
-    private Coordinates[] lastTwoCoordinates = new Coordinates[2] { new Coordinates(), new Coordinates() };
+    private Coordinates[] lastTwoCoordinates = new Coordinates[2];
 
     protected override void OnInitialized()
     {
@@ -45,11 +45,9 @@
     }
     private async Task TrackLiveLocation()
     {
-        if (trackingLocation)
-        {
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-            time = FormatElapsedTime(elapsedTime);
-        }
+        TimeSpan elapsedTime = DateTime.Now - startTime;
+        time = FormatElapsedTime(elapsedTime);
+        
         await getLocation();
         await moveLocationMarker();
 
@@ -59,7 +57,7 @@
 
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
         distanceInKM += lastDistanceChange;
-        Console.WriteLine(distanceInKM);
+        Console.WriteLine(distanceInKM);    
         speedKMH = lastDistanceChange > 0 ? lastDistanceChange/(0.1 / 3600) : speedKMH;
         await drawLine();
     }
@@ -80,9 +78,14 @@
         double lat2 = lastTwoCoordinates[1].Latitude;
         double lon2 = lastTwoCoordinates[1].Longitude;
 
+        Console.WriteLine($"{lat1}, {lon1}\n{lat2}, {lon2}");
+
         // Convert degrees to radians
         lat1 = lat1 * (Math.PI / 180);
         lat2 = lat2 * (Math.PI / 180);
+        lon1 = lon1 * (Math.PI / 180);
+        lon2 = lon2 * (Math.PI / 180);
+
         double dLat = (lat2 - lat1);
         double dLon = (lon2 - lon1);
 
@@ -92,6 +95,7 @@
         double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
         double distanceInKM = R * c;
+        Console.WriteLine($"Distance: {distanceInKM}");
         return distanceInKM;
     }
 
@@ -117,6 +121,9 @@
             await getLocation();
             lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
             lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
+
+            Console.WriteLine(lastTwoCoordinates[0]);
+            Console.WriteLine(lastTwoCoordinates[1]);
             await moveLocationMarker();
             await InitializeMap();
         }
@@ -129,7 +136,6 @@
             var coordinates = await JSRuntime.InvokeAsync<Coordinates>("getCurrentLocation");
             latitude = coordinates.Latitude;
             longitude = coordinates.Longitude;
-            Console.WriteLine($"{latitude} {longitude}");
             StateHasChanged();
         }
         catch (Exception ex)
