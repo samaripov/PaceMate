@@ -7,17 +7,21 @@
 
 <main>
     <div id="map"></div>
-
     <div class="info-container">
-        <div class="horizontal-container">
-            <p class="timer-large">@time[0]</p>
-            <p class="timer-small">@time[1]</p>
+        <div class="timer-container">
+            <p class="timer-large">@(time[0] != "00" ? $"{time[0]} " : "")</p>
+            <p class="timer-large">@(time[1] != "00" ? $"{time[1]} " : "")</p>
+            <p class="timer-large">@time[2]</p>
+            <p class="timer-small">@time[3]</p>
         </div>
-        <p>@parseDistanceLabel()</p>
+        <div class="horizontal-container">
+            <p>@parseDistanceLabel()</p>
+            <p>@parseDistanceLabel()</p>
+        </div>
+        @if (goalState.distanceGoal is not null) {
+            <p>@goalState.untilGoalReachedLabel()</p>        
+        }
     </div>
-    @if (goalState.distanceGoal is not null) {
-        <p>@goalState.untilGoalReachedLabel()</p>        
-    }
 
     @if (trackingLocation)
     {
@@ -35,7 +39,7 @@
     private bool trackingLocation = false;
     private System.Timers.Timer timer;
     private DateTime startTime;
-    private string[] time = { "00:00", "00" };
+    private string[] time = { "00", "00", "00", "000" };
     private double distanceInKM = 0.0;
     private double speedKMH = 0.0;  
     private Coordinates[] lastTwoCoordinates = new Coordinates[2];
@@ -48,11 +52,19 @@
 
     private string[] FormatElapsedTime(TimeSpan timeSpan)
     {
-        var largeTimer = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
+        var hours = string.Format("{0:D2}", timeSpan.Hours);
+        var minutes = string.Format("{0:D2}", timeSpan.Minutes);
+        var seconds = string.Format("{0:D2}", timeSpan.Seconds);
         var milliSeconds = string.Format("{0:D2}", timeSpan.Milliseconds);
+
+        hours = hours.Length < 2 ? $"0{hours}" : hours;
+        minutes = minutes.Length < 2 ? $"0{minutes}" : minutes;
+        seconds = seconds.Length < 2 ? $"0{seconds}" : seconds;
+
         milliSeconds = milliSeconds.Length < 2 ? $"00{milliSeconds}" : milliSeconds;
         milliSeconds = milliSeconds.Length < 3 ? $"0{milliSeconds}" : milliSeconds;
-        return [largeTimer, milliSeconds];
+
+        return [hours, minutes, seconds, milliSeconds];
     }
     private async Task TrackLiveLocation()
     {
@@ -80,9 +92,9 @@
         var distance = distanceInKM.ToString("0.###");
         if(distanceInKM < 1) {
             var distanceInMeters = (int)((distanceInKM - Math.Truncate(distanceInKM)) * 1000);
-            return $"{distanceInMeters} meters";
+            return $"{distanceInMeters}m";
         } else {
-            return $"{distance} km";
+            return $"{distance}km";
         }
     }
     private Double calculateDistanceOfLastTwoPointsInKM() {

@@ -40,10 +40,6 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvTm90Rm91bmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/sam/Desktop/Blazor/PaceMate/Pages/RunMap.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUnVuTWFwLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [/home/sam/Desktop/Blazor/PaceMate/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
@@ -59,3 +55,7 @@ build_metadata.AdditionalFiles.CssScope = b-v6wvnqmlap
 [/home/sam/Desktop/Blazor/PaceMate/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0L01haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-na6g0zj5za
+
+[/home/sam/Desktop/Blazor/PaceMate/Pages/RunMap.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXMvUnVuTWFwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-540k2fauw5
