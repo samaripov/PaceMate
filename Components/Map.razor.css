@@ -6,15 +6,12 @@ main {
 }
 
 button {
-    position: fixed;
     border: none;
     color: white;
     font-size: 2rem;
     font-weight: 1000;
     padding: 1rem;
     width: 100%;
-    bottom: 0;
-    left: 0;
 }
 button.start {
     background: linear-gradient(45deg, #40ca7e, #3cff7d);
