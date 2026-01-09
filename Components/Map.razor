@@ -65,13 +65,11 @@
     }
 
     private string parseDistanceLabel() {
-        var distanceParts = distanceInKM.ToString().Split(".");
-        var kilometers = distanceParts[0];
-        var meters = distanceParts[1].Substring(3);
+        var distance = distanceInKM.ToString("0.###");
         if(distanceInKM < 1) {
-            return $"{meters} meters";
+            return $"{distance} meters";
         } else {
-            return $"{kilometers}.{(meters)} km";
+            return $"{distance} km";
         }
     }
     private Double calculateDistanceOfLastTwoPointsInKM() {
