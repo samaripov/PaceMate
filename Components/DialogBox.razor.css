@@ -1,0 +1,24 @@
+.module {
+    position: absolute;
+    background: rgba(128, 128, 128, 0.233);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.module .content {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-width: 20rem;
+    min-height: 20rem;
+}
+
+.visable {
+    visibility: visible;
+}
+.hidden {
+    visibility: collapse;
+}

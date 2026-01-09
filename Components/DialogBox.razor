@@ -1,0 +1,20 @@
+@inject NavigationManager Navigation
+
+<div class="module @(moduleVisable ? "visable" : "hidden")">
+    <div class="content">
+        @ChildContent
+        <button @onclick="confirm" class="btn-primary">Confirm</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool moduleVisable = true;
+
+    private void confirm(){
+        moduleVisable = false;
+        Navigation.NavigateTo("/run");
+    }
+}

@@ -1,6 +1,8 @@
 ﻿@using System.Text.Json.Nodes
 @using PaceMate.Objects
 @using System.Globalization
+
+@inject GoalState goalState;
 @inject IJSRuntime JSRuntime
 
 <main>
@@ -10,12 +12,15 @@
         <p>@time</p>
         <p>@parseDistanceLabel()</p>
     </div>
+    @if (goalState.distanceGoal is not null) {
+        <p>@goalState.untilGoalReachedLabel()</p>        
+    }
 
     @if (trackingLocation)
     {
-        <button class="stop" @onclick="StopTracking">STOP RUN</button>
+        <button class="stop" @onclick="StopTracking">FINISH RUN</button>
     }
-    else
+    else    
     {
         <button class="start" @onclick="StartTracking">START RUN</button>
     }
@@ -57,6 +62,10 @@
 
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();
         distanceInKM += lastDistanceChange;
+        
+        //Updated distance goal state
+        goalState.distanceTraveled = distanceInKM;
+
         Console.WriteLine(distanceInKM);    
         speedKMH = lastDistanceChange > 0 ? lastDistanceChange/(0.1 / 3600) : speedKMH;
         await drawLine();

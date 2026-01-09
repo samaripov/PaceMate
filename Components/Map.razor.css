@@ -2,6 +2,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 button {
@@ -12,7 +13,7 @@ button {
     border-radius: 1rem;
     padding: 1rem;
     margin: 0.5rem;
-    width: 20rem;
+    width: 100%;
 }
 button.start {
     background: rgb(13, 194, 13);
@@ -22,14 +23,14 @@ button.start:hover {
 }
 
 button.stop {
-    background: rgb(228, 12, 12);
+    background: rgb(201, 22, 255);
 }
 button.stop:hover {
-    background: rgb(153, 11, 11);
+    background: rgb(178, 12, 228);
 }
 
 #map {
-    height: 75vh;
+    height: 70vh;
     width: 100%;
 }
 

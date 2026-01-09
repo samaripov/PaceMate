@@ -2,4 +2,22 @@
 @using PaceMate.Components
 
 <PageTitle>Home</PageTitle>
-<a href="/run" class="btn-primary">Run?</a>
+
+@if (runType is not "") {
+    <DialogBox>
+        <p>@runType</p>
+    </DialogBox>
+}
+
+<button @onclick="runForDistance" class="btn-primary">Run for Distance</button>
+<button @onclick="runForTime" class="btn-primary">Run for Time</button>
+
+@code {
+    private string runType = "";
+    private void runForDistance() {
+        runType = "distance";
+    }
+    private void runForTime() {
+        runType = "time";
+    }
+}
