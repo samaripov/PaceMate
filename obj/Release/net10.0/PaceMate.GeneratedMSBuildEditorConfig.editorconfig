@@ -48,6 +48,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/sam/Desktop/Blazor/PaceMate/Components/DialogBox.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9EaWFsb2dCb3gucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-9xu4w30pfa
+
 [/home/sam/Desktop/Blazor/PaceMate/Components/Map.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9NYXAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-v6wvnqmlap

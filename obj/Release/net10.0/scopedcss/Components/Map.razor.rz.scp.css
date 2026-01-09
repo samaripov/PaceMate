@@ -2,6 +2,7 @@ main[b-v6wvnqmlap] {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 button[b-v6wvnqmlap] {
@@ -12,7 +13,7 @@ button[b-v6wvnqmlap] {
     border-radius: 1rem;
     padding: 1rem;
     margin: 0.5rem;
-    width: 20rem;
+    width: 100%;
 }
 button.start[b-v6wvnqmlap] {
     background: rgb(13, 194, 13);
@@ -22,14 +23,14 @@ button.start:hover[b-v6wvnqmlap] {
 }
 
 button.stop[b-v6wvnqmlap] {
-    background: rgb(228, 12, 12);
+    background: rgb(201, 22, 255);
 }
 button.stop:hover[b-v6wvnqmlap] {
-    background: rgb(153, 11, 11);
+    background: rgb(178, 12, 228);
 }
 
 #map[b-v6wvnqmlap] {
-    height: 75vh;
+    height: 70vh;
     width: 100%;
 }
 
