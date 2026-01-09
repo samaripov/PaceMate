@@ -37,6 +37,11 @@ button[b-v6wvnqmlap] {
     font-weight: 1000;
     width: 100%;
 }
+
+button.count-down[b-v6wvnqmlap] {
+    background: linear-gradient(45deg, #40baca, #1db1a4);
+}
+
 button.start[b-v6wvnqmlap] {
     background: linear-gradient(45deg, #40ca7e, #3cff7d);
 }

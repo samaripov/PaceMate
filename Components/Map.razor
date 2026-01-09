@@ -27,6 +27,9 @@
     @if (goalState.isGoalReached()) {
         <button class="primary stick-to-bottom fill-btn" @onclick="SaveRun">SAVE RUN</button>
     }
+    else if (countDown_Count > 0 && trackingLocation) {
+        <button class="count-down stick-to-bottom fill-btn">@countDown_Count</button>
+    }
     else if (trackingLocation)
     {
         <button class="stop stick-to-bottom fill-btn" @onclick="StopTracking">STOP</button>
@@ -42,6 +45,7 @@
     private double longitude = 0.0;
     private bool trackingLocation = false;
     private System.Timers.Timer timer;
+    private System.Timers.Timer countDownTimer;
     private DateTime startTime;
     private string[] time = { "00", "00", "00", "000" };
     private double distanceInKM = 0.0;
@@ -54,7 +58,21 @@
             Navigation.NavigateTo("/");
         }
         timer = new System.Timers.Timer(1);
-        timer.Elapsed += async (sender, e) => await TrackLiveLocation();
+        countDownTimer = new System.Timers.Timer(1000);
+        countDownTimer.Elapsed += (_, _) => countDown();
+        timer.Elapsed += async (_, _) => await TrackLiveLocation();
+    }
+
+    public int countDown_Count = 3;
+    private void countDown() {
+        countDown_Count -= 1;
+        StateHasChanged();
+
+        if(countDown_Count == 0) {
+            countDownTimer.Stop();
+            startTime = DateTime.Now;
+            timer.Start();
+        }
     }
     private void SaveRun() {
         goalState.resetState();
@@ -154,8 +172,7 @@
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
 
         trackingLocation = true;
-        startTime = DateTime.Now;
-        timer.Start();
+        countDownTimer.Start();
     }
     private void StopTracking()
     {

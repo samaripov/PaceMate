@@ -11,6 +11,11 @@ button {
     font-weight: 1000;
     width: 100%;
 }
+
+button.count-down {
+    background: linear-gradient(45deg, #40baca, #1db1a4);
+}
+
 button.start {
     background: linear-gradient(45deg, #40ca7e, #3cff7d);
 }
