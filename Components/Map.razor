@@ -20,7 +20,14 @@
             <p>@($"{speedKMH:F2}") km/h</p>
         </div>
         @if (goalState.distanceGoal is not null) {
-            <p>@goalState.untilGoalReachedLabel()</p>        
+            <span>Goal Progress</span>
+            <div class="progress-bar-container">
+                <div style="width: @goalState.untilGoalReachedPercent()%;" class="progress-bar"></div>  
+                <div>
+                    <p>@goalState.untilGoalReachedPercent()%</p>      
+                    <p>@goalState.untilGoalReachedLabel()</p>      
+                </div>
+            </div>
         }
     </div>
 
