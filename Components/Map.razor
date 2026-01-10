@@ -71,11 +71,14 @@
     }
 
     public int countDown_Count = 3;
-    private void countDown() {
+    private async void countDown() {
         countDown_Count -= 1;
         StateHasChanged();
 
         if(countDown_Count == 0) {
+            await getLocation();
+            lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
+            lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
             countDownTimer.Stop();
             startTime = DateTime.Now;
             timer.Start();
@@ -174,10 +177,6 @@
 
     private async Task StartTracking()
     {
-        await getLocation();
-        lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
-        lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
-
         trackingLocation = true;
         countDownTimer.Start();
     }

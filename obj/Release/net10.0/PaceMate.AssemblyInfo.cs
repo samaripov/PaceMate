@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PaceMate")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2210f301297a02061ddae7903d845602c1e549dd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a9aab125a1c1a04f2c83e7d8480268fd2454301")]
 [assembly: System.Reflection.AssemblyProductAttribute("PaceMate")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PaceMate")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
