@@ -1,6 +1,7 @@
 ﻿@using System.Text.Json.Nodes
 @using PaceMate.Objects
 @using System.Globalization
+@using System.Timers
 
 @inject NavigationManager Navigation
 @inject GoalState goalState
@@ -53,7 +54,9 @@
     private bool trackingLocation = false;
     private System.Timers.Timer timer;
     private System.Timers.Timer countDownTimer;
-    private DateTime startTime;
+    private int timePastInSeconds = 0;
+    private DateTime lastSignalTime;
+    private TimeSpan elapsedTime;
     private string[] time = { "00", "00", "00", "000" };
     private double distanceInKM = 0.0;
     private double speedKMH = 0.0;  
@@ -64,10 +67,11 @@
         if(goalState.distanceGoal is null) {
             Navigation.NavigateTo("/");
         }
-        timer = new System.Timers.Timer(1);
+        elapsedTime = TimeSpan.Zero;
         countDownTimer = new System.Timers.Timer(1000);
         countDownTimer.Elapsed += (_, _) => countDown();
-        timer.Elapsed += async (_, _) => await TrackLiveLocation();
+        timer = new System.Timers.Timer(1);
+        timer.Elapsed += TrackLiveLocation;
     }
 
     public int countDown_Count = 3;
@@ -80,7 +84,7 @@
             lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
             lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
             countDownTimer.Stop();
-            startTime = DateTime.Now;
+            lastSignalTime = DateTime.Now;
             timer.Start();
         }
     }
@@ -104,10 +108,12 @@
 
         return [hours, minutes, seconds, milliSeconds];
     }
-    private async Task TrackLiveLocation()
+    private async void TrackLiveLocation(object? _, ElapsedEventArgs e)
     {
-        TimeSpan elapsedTime = DateTime.Now - startTime;
+        TimeSpan currentElapsedTimeChange = DateTime.Now - lastSignalTime;
         time = FormatElapsedTime(elapsedTime);
+        elapsedTime += currentElapsedTimeChange;
+        lastSignalTime = DateTime.Now;
 
         await getLocation();
         await moveLocationMarker();
@@ -177,8 +183,10 @@
 
     private async Task StartTracking()
     {
+        countDown_Count = 3;
         trackingLocation = true;
         countDownTimer.Start();
+        StateHasChanged();
     }
     private void StopTracking()
     {
