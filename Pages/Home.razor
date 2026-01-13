@@ -15,13 +15,13 @@
         } else if (runType == "distance") {
             <h1 class="title">Distance Goal</h1>
             <EditForm EditContext="editContext" OnValidSubmit = "HandleValidSubmit">
-                <InputNumber id="numberInput" @bind-Value="inputNumber" placeholder="Distance Goal (e.g. 100)"/>
+                <InputNumber id="numberInput" @bind-Value="inputNumber" placeholder="Distance (e.g. 100)"/>
                 <select @bind="unit">
                     <option value="meters">Meters</option>
                     <option value="kilometers">Kilometers</option>
                     <option value="miles">Miles</option>
                 </select>
-                 <button type="submit">Submit</button>
+                 <button type="submit" class="btn primary">Submit</button>
             </EditForm>
         } else if (runType == "time") {
             <h1 class="title">Time</h1>
