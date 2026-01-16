@@ -93,12 +93,12 @@
     private async void SaveRun() {
         goalState.resetState();
         SavedRun saveDataObject = new SavedRun {
-            path = path,
-            avgSpeed = speedKMH,
-            speedUnit = "KM/H",
-            distance = distanceInKM,
-            distanceUnit = "KM",
-            time = time
+            Path = path,
+            AvgSpeed = speedKMH,
+            SpeedUnit = "KM/H",
+            Distance = distanceInKM,
+            DistanceUnit = "KM",
+            Time = time
         };
 
         string jsonSaveData = JsonSerializer.Serialize(saveDataObject);

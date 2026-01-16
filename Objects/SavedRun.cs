@@ -4,10 +4,10 @@ namespace PaceMate.Objects;
 
 public class SavedRun
 {
-    public List<Coordinates> path { get; set; } = new List<Coordinates>();
-    public double avgSpeed { get; set; }
-    public string speedUnit { get; set; } = "";
-    public double distance { get; set; }
-    public string distanceUnit { get; set; } = "";
-    public string[] time { get; set; } = [];
+    public List<Coordinates> Path { get; set; } = new List<Coordinates>();
+    public double AvgSpeed { get; set; }
+    public string SpeedUnit { get; set; } = "";
+    public double Distance { get; set; }
+    public string DistanceUnit { get; set; } = "";
+    public string[] Time { get; set; } = new string[0];
 }

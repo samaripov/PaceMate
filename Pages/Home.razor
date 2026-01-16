@@ -1,59 +1,92 @@
 ﻿@page "/"
 @using PaceMate.Components
+@using PaceMate.Objects
+@using System.Text.Json
 @inject ModuleState moduleState
 @inject NavigationManager Navigation
 @inject GoalState goalState
+@inject IJSRuntime JSRuntime
+
 
 <PageTitle>Home</PageTitle>
 
-@if (moduleState.Visible) {
+@if (moduleState.Visible)
+{
     <DialogBox>
-        @if(runType == "") {
+        @if (runType == "")
+        {
             <h1 class="title">Run Goal</h1>
             <button @onclick="runForDistance" class="btn primary">Distance</button>
             <button @onclick="runForTime" class="btn primary">Time</button>
-        } else if (runType == "distance") {
+        }
+        else if (runType == "distance")
+        {
             <h1 class="title">Distance Goal</h1>
-            <EditForm EditContext="editContext" OnValidSubmit = "HandleValidSubmit">
-                <InputNumber id="numberInput" @bind-Value="inputNumber" placeholder="Distance (e.g. 100)"/>
+            <EditForm EditContext="editContext" OnValidSubmit="HandleValidSubmit">
+                <InputNumber id="numberInput" @bind-Value="inputNumber" placeholder="Distance (e.g. 100)" />
                 <select @bind="unit">
                     <option value="meters">Meters</option>
                     <option value="kilometers">Kilometers</option>
                     <option value="miles">Miles</option>
                 </select>
-                 <button type="submit" class="btn primary">Submit</button>
+                <button type="submit" class="btn primary">Submit</button>
             </EditForm>
-        } else if (runType == "time") {
+        }
+        else if (runType == "time")
+        {
             <h1 class="title">Time</h1>
         }
     </DialogBox>
 }
-
+<main>
+    @if (savedRunsContainer is null || savedRunsContainer.SavedRuns.Count == 0)
+    {
+        <p>No runs yet, let's fix that!</p>
+    }
+    else
+    {
+        <p>@(savedRunsContainer.SavedRuns.Count) run(s) saved</p>
+    }
+</main>
 <button class="btn primary stick-to-bottom fill-button" @onclick="startRun">START</button>
 
 @code {
     private EditContext editContext;
-
-    protected override void OnInitialized()
+    private SavedRunsContainer? savedRunsContainer;
+    protected override async Task OnInitializedAsync()
     {
         editContext = new EditContext(this);
+        var savedRunsJSONString = await JSRuntime.InvokeAsync<string>("getSavedRuns");
+        if (!string.IsNullOrEmpty(savedRunsJSONString))
+        {
+            savedRunsContainer = JsonSerializer.Deserialize<SavedRunsContainer>(savedRunsJSONString);
+            StateHasChanged();
+        }
+        else
+        {
+            Console.WriteLine("No save data");
+        }
     }
 
     private string runType = "";
-    private void startRun() {
+    private void startRun()
+    {
         moduleState.Visible = true;
         runType = "";
     }
     private void runForDistance() => runType = "distance";
     private void runForTime() => runType = "time";
-    
+
     private double? inputNumber;
     private string unit = "meters";
-    private void HandleValidSubmit() {
-        if(inputNumber.HasValue) {
+    private void HandleValidSubmit()
+    {
+        if (inputNumber.HasValue)
+        {
             goalState.distanceGoal = unit == "meters" ? inputNumber / 1000 : inputNumber;
             Navigation.NavigateTo("/run");
         }
         moduleState.Visible = false;
     }
+
 }
