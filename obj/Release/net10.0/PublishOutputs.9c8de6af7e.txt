@@ -1,0 +1,7 @@
+/home/sam/Desktop/Blazor/PaceMate/publish/wwwroot/index.html
+/home/sam/Desktop/Blazor/PaceMate/publish/publish/web.config
+/home/sam/Desktop/Blazor/PaceMate/publish/publish/PaceMate.runtimeconfig.json
+/home/sam/Desktop/Blazor/PaceMate/publish/publish/PaceMate.staticwebassets.endpoints.json
+/home/sam/Desktop/Blazor/PaceMate/publish/PaceMate.runtimeconfig.json
+/home/sam/Desktop/Blazor/PaceMate/publish/dotnet.js
+/home/sam/Desktop/Blazor/PaceMate/publish/web.config

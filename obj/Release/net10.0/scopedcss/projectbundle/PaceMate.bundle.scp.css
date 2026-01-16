@@ -15,6 +15,10 @@
     padding:0.5rem;
     min-width: 20rem;
     min-height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .visable[b-9xu4w30pfa] {
@@ -65,6 +69,8 @@ button.stop:hover[b-v6wvnqmlap] {
 
 .progress-bar-container[b-v6wvnqmlap] {
     display: grid;
+    border-top: 2px solid #8fe4fa;
+    border-bottom: 2px solid #87d4f3;
 }
 
 .progress-bar-container>*[b-v6wvnqmlap] {
@@ -74,7 +80,7 @@ button.stop:hover[b-v6wvnqmlap] {
 
 .progress-bar[b-v6wvnqmlap] {
     position: absolute;
-    background: #b0efff;
+    background: linear-gradient(45deg, #a6e3ff, #94ece5);
     height: 3rem;
     display: flex;
     justify-content: center;
@@ -92,7 +98,10 @@ button.stop:hover[b-v6wvnqmlap] {
 
 .progress-bar-container p[b-v6wvnqmlap] {
     margin: 0;
-    color: #00cebd;
+    background: linear-gradient(45deg, #27d4ff, #46c7e7);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
     z-index: 1;
 }
 

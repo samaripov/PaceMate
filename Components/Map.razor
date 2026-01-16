@@ -2,6 +2,7 @@
 @using PaceMate.Objects
 @using System.Globalization
 @using System.Timers
+@using System.Text.Json
 
 @inject NavigationManager Navigation
 @inject GoalState goalState
@@ -11,11 +12,11 @@
     <div id="map"></div>
     <div class="info-container">
         <div class="timer-container">
-            <p class="timer-large">@(time[0] != "00" ? $"{time[0]} " : "")</p>
-            <p class="timer-large">@(time[1] != "00" ? $"{time[1]} " : "")</p>
+            <p class="timer-large">@(time[0] != "00" ? $"{time[0]} : " : "")</p>
+            <p class="timer-large">@(time[1] != "00" ? $"{time[1]} : " : "")</p>
             <p class="timer-large">@time[2]</p>
             <p class="timer-small">@time[3]</p>
-        </div>
+        </div>  
         <div class="horizontal-container">
             <p>@parseDistanceLabel()</p>    
             <p>@($"{speedKMH:F2}") km/h</p>
@@ -57,10 +58,11 @@
     private int timePastInSeconds = 0;
     private DateTime lastSignalTime;
     private TimeSpan elapsedTime;
-    private string[] time = { "00", "00", "00", "000" };
+    private string[] time = { "00", "00", "00", "0" };
     private double distanceInKM = 0.0;
     private double speedKMH = 0.0;  
     private Coordinates[] lastTwoCoordinates = new Coordinates[2];
+    private List<Coordinates> path = new List<Coordinates>();
 
     protected override void OnInitialized()
     {   
@@ -70,7 +72,7 @@
         elapsedTime = TimeSpan.Zero;
         countDownTimer = new System.Timers.Timer(1000);
         countDownTimer.Elapsed += (_, _) => countDown();
-        timer = new System.Timers.Timer(1);
+        timer = new System.Timers.Timer(100);
         timer.Elapsed += TrackLiveLocation;
     }
 
@@ -88,8 +90,20 @@
             timer.Start();
         }
     }
-    private void SaveRun() {
+    private async void SaveRun() {
         goalState.resetState();
+        SavedRun saveDataObject = new SavedRun {
+            path = path,
+            avgSpeed = speedKMH,
+            speedUnit = "KM/H",
+            distance = distanceInKM,
+            distanceUnit = "KM",
+            time = time
+        };
+
+        string jsonSaveData = JsonSerializer.Serialize(saveDataObject);
+        Console.WriteLine(jsonSaveData);
+        await JSRuntime.InvokeVoidAsync("saveRun", jsonSaveData);
         Navigation.NavigateTo("/");
     }
     private string[] FormatElapsedTime(TimeSpan timeSpan)
@@ -103,8 +117,7 @@
         minutes = minutes.Length < 2 ? $"0{minutes}" : minutes;
         seconds = seconds.Length < 2 ? $"0{seconds}" : seconds;
 
-        milliSeconds = milliSeconds.Length < 2 ? $"00{milliSeconds}" : milliSeconds;
-        milliSeconds = milliSeconds.Length < 3 ? $"0{milliSeconds}" : milliSeconds;
+        milliSeconds = milliSeconds.Length > 0 ? milliSeconds.Substring(0, 1) : milliSeconds;
 
         return [hours, minutes, seconds, milliSeconds];
     }
@@ -121,6 +134,9 @@
         //Adding the coordinates to the list
         lastTwoCoordinates[0] = lastTwoCoordinates[1];
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
+        
+        //Add coordinate to the path
+        path.Add(lastTwoCoordinates[1]);
 
         //Calculate distance delta
         var lastDistanceChange = calculateDistanceOfLastTwoPointsInKM();

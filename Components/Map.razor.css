@@ -39,6 +39,8 @@ button.stop:hover {
 
 .progress-bar-container {
     display: grid;
+    border-top: 2px solid #8fe4fa;
+    border-bottom: 2px solid #87d4f3;
 }
 
 .progress-bar-container>* {
@@ -48,7 +50,7 @@ button.stop:hover {
 
 .progress-bar {
     position: absolute;
-    background: #b0efff;
+    background: linear-gradient(45deg, #a6e3ff, #94ece5);
     height: 3rem;
     display: flex;
     justify-content: center;
@@ -66,7 +68,10 @@ button.stop:hover {
 
 .progress-bar-container p {
     margin: 0;
-    color: #00cebd;
+    background: linear-gradient(45deg, #27d4ff, #46c7e7);
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
     z-index: 1;
 }
 
@@ -102,7 +107,7 @@ button.stop:hover {
 }
 
 .timer-small {
-    width: 4rem;
+    width: 1.5rem;
     font-size: 2rem;
 }
 
