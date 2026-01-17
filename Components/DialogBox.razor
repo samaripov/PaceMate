@@ -1,19 +1,21 @@
 @inject NavigationManager Navigation
 @inject ModuleState moduleState
 
-<div class="module @(moduleState.Visible ? "visable" : "hidden")">
-    <div class="content">
-        @ChildContent
-        <button @onclick="cancel" class="btn cancel">Cancel</button>
+<main>
+    <div class="module @(moduleState.Visible ? "visable" : "hidden")">
+        <div class="content">
+            @ChildContent
+            <button @onclick="cancel" class="btn cancel">Cancel</button>
+        </div>
     </div>
-</div>
-
+</main>
 @code {
     [Parameter]
     public RenderFragment ChildContent { get; set; }
 
 
-    private void cancel(){
+    private void cancel()
+    {
         moduleState.Visible = false;
     }
 }

@@ -24,7 +24,7 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
 
-        map = L.map(mapId, {
+        const map = L.map(mapId, {
             zoomControl: isInteractive, // Hide the zoom controls
             dragging: isInteractive, // Disable dragging of the map
             scrollWheelZoom: isInteractive, // Disable scroll zoom
@@ -46,7 +46,7 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
 
         window.marker = L.marker([latitude, longitude]).addTo(window.maps[mapId]);
         await window.moveLocationMarker(latitude, longitude);
-    } catch (error) {
+    } catch (error) {   
         console.error("Error fetching location:", error);
     }
 }
