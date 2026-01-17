@@ -1,0 +1,11 @@
+@using PaceMate.Objects
+
+<p>@Date</p>
+<p>@savedRun.Distance @savedRun.DistanceUnit</p>
+
+@code {
+    [Parameter]
+    public string Date { get; set; } = "";
+    [Parameter]
+    public SavedRun savedRun { get; set; } = new SavedRun();
+}

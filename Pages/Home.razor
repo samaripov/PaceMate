@@ -45,7 +45,10 @@
     }
     else
     {
-        <p>@(savedRunsContainer.SavedRuns.Count) run(s) saved</p>
+        @foreach (KeyValuePair<string, SavedRun> run in savedRunsContainer.SavedRuns)
+        {
+            <SavedRunPreview Date="@(run.Key)" savedRun="@(run.Value)" />
+        }
     }
 </main>
 <button class="btn primary stick-to-bottom fill-button" @onclick="startRun">START</button>
