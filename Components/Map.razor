@@ -9,7 +9,7 @@
 @inject IJSRuntime JSRuntime
 
 <main>
-    <div id="map"></div>
+    <div id="liveMap" class="map"></div>
     <div class="info-container">
         <div class="timer-container">
             <p class="timer-large">@(time[0] != "00" ? $"{time[0]} : " : "")</p>
@@ -129,7 +129,7 @@
         lastSignalTime = DateTime.Now;
 
         await getLocation();
-        await moveLocationMarker();
+        await moveLocationMarker("liveMap");
 
         //Adding the coordinates to the list
         lastTwoCoordinates[0] = lastTwoCoordinates[1];
@@ -156,7 +156,7 @@
         }
 
         //Update user position
-        await drawLine();
+        await drawLine("liveMap");
         StateHasChanged();
     }
     private void calculateTheSpeed(TimeSpan elapsedTime) {
@@ -218,8 +218,8 @@
         if (firstRender)
         {
             await getLocation();
-            await moveLocationMarker();
-            await InitializeMap();
+            await moveLocationMarker("liveMap");
+            await InitializeMap("liveMap");
         }
     }
 
@@ -237,22 +237,23 @@
             Console.WriteLine($"Error retrieving location: {ex.Message}");
         }
     }
-    private async Task drawLine() {
+    private async Task drawLine(string mapId) {
         await JSRuntime.InvokeAsync<Coordinates>(
             "drawLine",
+            mapId,
             lastTwoCoordinates[0].Latitude,
             lastTwoCoordinates[0].Longitude,
             lastTwoCoordinates[1].Latitude,
             lastTwoCoordinates[1].Longitude
         );
     }
-    private async Task moveLocationMarker()
+    private async Task moveLocationMarker(string mapId)
     {
-        await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", latitude, longitude);
+        await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", mapId, latitude, longitude);
     }
 
-    private async Task InitializeMap()
+    private async Task InitializeMap(string mapId)
     {
-        await JSRuntime.InvokeVoidAsync("initializeMap", latitude, longitude);
+        await JSRuntime.InvokeVoidAsync("initializeMap", mapId, latitude, longitude);
     }
 }

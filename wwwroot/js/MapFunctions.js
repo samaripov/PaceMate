@@ -19,41 +19,54 @@ window.getCurrentLocation = async () => {
     });
 }
 
-window.initializeMap = async (latitude, longitude) => {
+window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) => {
     try {
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
 
-        window.map = L.map("map").setView([latitude, longitude], 22);
+        map = L.map(mapId, {
+            zoomControl: isInteractive, // Hide the zoom controls
+            dragging: isInteractive, // Disable dragging of the map
+            scrollWheelZoom: isInteractive, // Disable scroll zoom
+            doubleClickZoom: isInteractive, // Disable double click zoom
+            BoxZoom: isInteractive, // Disable box zoom
+            keyboard: isInteractive, // Disable keyboard interactions
+            attributionControl: isInteractive // Hide the attribution control
+        }).setView([latitude, longitude], 22);
+
+        if (window.maps == undefined) {
+            window.maps = {};
+        }
+        window.maps[mapId] = map;
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
-        }).addTo(window.map);
+        }).addTo(window.maps[mapId]);
 
-        window.marker = L.marker([latitude, longitude]).addTo(window.map);
+        window.marker = L.marker([latitude, longitude]).addTo(window.maps[mapId]);
         await window.moveLocationMarker(latitude, longitude);
     } catch (error) {
         console.error("Error fetching location:", error);
     }
 }
 
-window.moveLocationMarker = async (latitude, longitude) => {
+window.moveLocationMarker = async (mapId, latitude, longitude) => {
     if (window.marker) {
         window.marker.setLatLng([latitude, longitude]);
-        window.map.setView([latitude, longitude], 22);
+        window.maps[mapId].setView([latitude, longitude], 22);
     } else {
         console.error("Marker does not exist. Ensure initializeMap has been called first.");
     }
 }
 
-window.drawLine = async (lat1, lon1, lat2, lon2) => {
+window.drawLine = async (mapId, lat1, lon1, lat2, lon2) => {
     const latLng1 = [lat1, lon1];
     const latLng2 = [lat2, lon2];
-    L.polygon([latLng1, latLng2]).addTo(window.map);
+    L.polygon([latLng1, latLng2]).addTo(window.maps[mapId]);
 
 
-    if(!(lat1 == lat2 && lon1 == lon2)) {
+    if (!(lat1 == lat2 && lon1 == lon2)) {
         const rotation = calculateRotation(lat1, lon1, lat2, lon2);
         window.marker.setIcon(createLocationMarkerIcon(rotation));
     }

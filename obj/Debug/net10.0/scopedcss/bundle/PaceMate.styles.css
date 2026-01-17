@@ -62,7 +62,7 @@ button.stop:hover[b-v6wvnqmlap] {
     background: rgb(228, 12, 12);
 }
 
-#map[b-v6wvnqmlap] {
+.map[b-v6wvnqmlap] {
     height: 40vh;
     width: 100%;
 }
@@ -151,6 +151,12 @@ button.stop:hover[b-v6wvnqmlap] {
 .horizontal-container p[b-v6wvnqmlap] {
     margin: 0;
 }
+/* /Components/SavedRunPreview.razor.rz.scp.css */
+.map[b-kzoljj2ouk] {
+    width: 20rem;
+    height: 20rem;
+    z-index: -1;
+}
 /* /Layout/MainLayout.razor.rz.scp.css */
 .page[b-na6g0zj5za] {
     position: relative;
@@ -230,6 +236,9 @@ main[b-na6g0zj5za] {
     }
 }
 /* /Pages/Home.razor.rz.scp.css */
+main[b-raqg60pauk] {
+    padding-block-end: 104px;
+}
 .title[b-raqg60pauk] {
     text-align: center;
     margin: 0;

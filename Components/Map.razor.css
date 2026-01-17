@@ -32,7 +32,7 @@ button.stop:hover {
     background: rgb(228, 12, 12);
 }
 
-#map {
+.map {
     height: 40vh;
     width: 100%;
 }
