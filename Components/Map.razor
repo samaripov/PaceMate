@@ -16,34 +16,37 @@
             <p class="timer-large">@(time[1] != "00" ? $"{time[1]} : " : "")</p>
             <p class="timer-large">@time[2]</p>
             <p class="timer-small">@time[3]</p>
-        </div>  
+        </div>
         <div class="horizontal-container">
-            <p>@parseDistanceLabel()</p>    
+            <p>@parseDistanceLabel()</p>
             <p>@($"{speedKMH:F2}") km/h</p>
         </div>
-        @if (goalState.distanceGoal is not null) {
+        @if (goalState.distanceGoal is not null)
+        {
             <span>Goal Progress</span>
             <div class="progress-bar-container">
-                <div style="width: @goalState.untilGoalReachedPercent()%;" class="progress-bar"></div>  
+                <div style="width: @goalState.untilGoalReachedPercent()%;" class="progress-bar"></div>
                 <div>
-                    <p>@goalState.untilGoalReachedPercent()%</p>      
-                    <p>@goalState.untilGoalReachedLabel()</p>      
+                    <p>@goalState.untilGoalReachedPercent()%</p>
+                    <p>@goalState.untilGoalReachedLabel()</p>
                 </div>
             </div>
         }
     </div>
 
-    @if (goalState.isGoalReached()) {
+    @if (goalState.isGoalReached())
+    {
         <button class="primary stick-to-bottom fill-btn" @onclick="SaveRun">SAVE RUN</button>
     }
-    else if (countDown_Count > 0 && trackingLocation) {
+    else if (countDown_Count > 0 && trackingLocation)
+    {
         <button class="count-down stick-to-bottom fill-btn">@countDown_Count</button>
     }
     else if (trackingLocation)
     {
         <button class="stop stick-to-bottom fill-btn" @onclick="StopTracking">STOP</button>
     }
-    else    
+    else
     {
         <button class="start stick-to-bottom fill-btn" @onclick="StartTracking">START</button>
     }
@@ -60,13 +63,14 @@
     private TimeSpan elapsedTime;
     private string[] time = { "00", "00", "00", "0" };
     private double distanceInKM = 0.0;
-    private double speedKMH = 0.0;  
+    private double speedKMH = 0.0;
     private Coordinates[] lastTwoCoordinates = new Coordinates[2];
     private List<Coordinates> path = new List<Coordinates>();
 
     protected override void OnInitialized()
-    {   
-        if(goalState.distanceGoal is null) {
+    {
+        if (goalState.distanceGoal is null)
+        {
             Navigation.NavigateTo("/");
         }
         elapsedTime = TimeSpan.Zero;
@@ -77,11 +81,13 @@
     }
 
     public int countDown_Count = 3;
-    private async void countDown() {
+    private async void countDown()
+    {
         countDown_Count -= 1;
         StateHasChanged();
 
-        if(countDown_Count == 0) {
+        if (countDown_Count == 0)
+        {
             await getLocation();
             lastTwoCoordinates[0] = new Coordinates { Latitude = latitude, Longitude = longitude };
             lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
@@ -90,9 +96,11 @@
             timer.Start();
         }
     }
-    private async void SaveRun() {
+    private async void SaveRun()
+    {
         goalState.resetState();
-        SavedRun saveDataObject = new SavedRun {
+        SavedRun saveDataObject = new SavedRun
+        {
             Path = path,
             AvgSpeed = speedKMH,
             SpeedUnit = "KM/H",
@@ -134,7 +142,7 @@
         //Adding the coordinates to the list
         lastTwoCoordinates[0] = lastTwoCoordinates[1];
         lastTwoCoordinates[1] = new Coordinates { Latitude = latitude, Longitude = longitude };
-        
+
         //Add coordinate to the path
         path.Add(lastTwoCoordinates[1]);
 
@@ -145,13 +153,15 @@
         //Updated distance goal state
         goalState.distanceTraveled = distanceInKM;
 
-        if(goalState.isGoalReached()) {
+        if (goalState.isGoalReached())
+        {
             calculateTheSpeed(elapsedTime);
             StopTracking();
         }
 
         //Calculate and update speed
-        if(elapsedTime.Seconds % 1 == 0) {
+        if (elapsedTime.Seconds % 1 == 0)
+        {
             calculateTheSpeed(elapsedTime);
         }
 
@@ -159,20 +169,27 @@
         await drawLine("liveMap");
         StateHasChanged();
     }
-    private void calculateTheSpeed(TimeSpan elapsedTime) {
-        double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds + (elapsedTime.Milliseconds / 1000.0);
+    private void calculateTheSpeed(TimeSpan elapsedTime)
+    {
+        double timeInSeconds = elapsedTime.Hours * 60 + elapsedTime.Minutes * 60 + elapsedTime.Seconds +
+        (elapsedTime.Milliseconds / 1000.0);
         speedKMH = ((distanceInKM * 1000) / timeInSeconds) * 3.6;
     }
-    private string parseDistanceLabel() {
+    private string parseDistanceLabel()
+    {
         var distance = distanceInKM.ToString("0.###");
-        if(distanceInKM < 1) {
+        if (distanceInKM < 1)
+        {
             var distanceInMeters = (int)((distanceInKM - Math.Truncate(distanceInKM)) * 1000);
             return $"{distanceInMeters}m";
-        } else {
+        }
+        else
+        {
             return $"{distance}km";
         }
     }
-    private Double calculateDistanceOfLastTwoPointsInKM() {
+    private Double calculateDistanceOfLastTwoPointsInKM()
+    {
         double R = 6371.2; // Radius of the Earth in kilometers
         double lat1 = lastTwoCoordinates[0].Latitude;
         double lon1 = lastTwoCoordinates[0].Longitude;
@@ -189,8 +206,8 @@
         double dLon = (lon2 - lon1);
 
         double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                Math.Cos(lat1) * Math.Cos(lat2) *
-                Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+        Math.Cos(lat1) * Math.Cos(lat2) *
+        Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
         double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
         double distanceInKM = R * c;
@@ -217,8 +234,7 @@
     {
         if (firstRender)
         {
-            await getLocation();
-            await moveLocationMarker("liveMap");
+            Console.WriteLine("Trying to initialize");
             await InitializeMap("liveMap");
         }
     }
@@ -237,10 +253,17 @@
             Console.WriteLine($"Error retrieving location: {ex.Message}");
         }
     }
-    private async Task drawLine(string mapId) {
+    private async Task drawLine(string mapId)
+    {
         await JSRuntime.InvokeAsync<Coordinates>(
-            "drawLine",
-            mapId,
+        "drawLine",
+        mapId,
+        lastTwoCoordinates[0].Latitude,
+        lastTwoCoordinates[0].Longitude,
+        lastTwoCoordinates[1].Latitude,
+        lastTwoCoordinates[1].Longitude
+        );
+        await JSRuntime.InvokeVoidAsync("updateCursor",
             lastTwoCoordinates[0].Latitude,
             lastTwoCoordinates[0].Longitude,
             lastTwoCoordinates[1].Latitude,
@@ -249,7 +272,7 @@
     }
     private async Task moveLocationMarker(string mapId)
     {
-        await JSRuntime.InvokeAsync<Coordinates>("moveLocationMarker", mapId, latitude, longitude);
+        await JSRuntime.InvokeVoidAsync("moveLocationMarker", mapId, latitude, longitude);
     }
 
     private async Task InitializeMap(string mapId)

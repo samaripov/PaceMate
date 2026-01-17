@@ -17,7 +17,6 @@
         string format = "ddd MMM dd yyyy HH:mm:ss 'GMT'zzz '(Eastern Standard Time)'";
 
         DateTime dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
-        Console.WriteLine(dateTime);
 
         return dateTime;
     }

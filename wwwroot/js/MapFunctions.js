@@ -20,6 +20,7 @@ window.getCurrentLocation = async () => {
 }
 
 window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) => {
+    console.log(mapId);
     try {
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
@@ -37,8 +38,8 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
         if (window.maps == undefined) {
             window.maps = {};
         }
-        window.maps[mapId] = map;
-
+        window.maps[`${mapId}`] = map;
+        console.log(window.maps[`${mapId}`]);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'
@@ -46,7 +47,7 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
 
         window.marker = L.marker([latitude, longitude]).addTo(window.maps[mapId]);
         await window.moveLocationMarker(latitude, longitude);
-    } catch (error) {   
+    } catch (error) {
         console.error("Error fetching location:", error);
     }
 }
@@ -64,14 +65,14 @@ window.drawLine = async (mapId, lat1, lon1, lat2, lon2) => {
     const latLng1 = [lat1, lon1];
     const latLng2 = [lat2, lon2];
     L.polygon([latLng1, latLng2]).addTo(window.maps[mapId]);
+}
 
-
+window.updateCursor = async (lat1, lon1, lat2, lon2) => {
     if (!(lat1 == lat2 && lon1 == lon2)) {
         const rotation = calculateRotation(lat1, lon1, lat2, lon2);
         window.marker.setIcon(createLocationMarkerIcon(rotation));
     }
 }
-
 
 function createLocationMarkerIcon(rotation) {
     return L.divIcon({
