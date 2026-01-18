@@ -20,7 +20,6 @@ window.getCurrentLocation = async () => {
 }
 
 window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) => {
-    console.log(mapId);
     try {
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
@@ -39,7 +38,6 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
             window.maps = {};
         }
         window.maps[`${mapId}`] = map;
-        console.log(window.maps[`${mapId}`]);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '© OpenStreetMap contributors'

@@ -2,9 +2,11 @@
 @using System.Globalization
 @inject IJSRuntime JSRuntime
 
-<div id="@Date" class="map"></div>
-<p>@convertStringToDateTime(Date)</p>
-<p>@savedRun.Distance @savedRun.DistanceUnit</p>
+<main>
+    <div id="@Date" class="map"></div>
+    <p>@convertStringToDateTime(Date)</p>
+    <p>@savedRun.Distance @savedRun.DistanceUnit</p>
+</main>
 
 @code {
     [Parameter]
@@ -30,20 +32,21 @@
             var initialLongitudeString = $"{savedRun.Path[0].Longitude}";
             await InitializeMap(Date, initialLatitudeString, initialLongitudeString);
 
-            
+
             //Draw the path on the map
             var lineStartLatitude = "";
             var lineStartLongitude = "";
             foreach (Coordinates pathCoords in savedRun.Path)
             {
-                if(lineStartLatitude != "" && lineStartLongitude != "") {
+                if (lineStartLatitude != "" && lineStartLongitude != "")
+                {
                     await JSRuntime.InvokeAsync<Coordinates>(
                     "drawLine",
-                        Date,
-                        lineStartLatitude,
-                        lineStartLongitude,
-                        pathCoords.Latitude,
-                        pathCoords.Longitude
+                    Date,
+                    lineStartLatitude,
+                    lineStartLongitude,
+                    pathCoords.Latitude,
+                    pathCoords.Longitude
                     );
                 }
                 lineStartLatitude = $"{pathCoords.Latitude}";

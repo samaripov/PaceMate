@@ -1,5 +1,10 @@
+main[b-kzoljj2ouk] { 
+    display: flex;
+    box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.493);
+}
 .map[b-kzoljj2ouk] {
-    width: 20rem;
-    height: 20rem;
+    width: 10rem;
+    height: 10rem;
+    border-radius: 0.5rem;
     z-index: -1;
 }
