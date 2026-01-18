@@ -1,10 +1,21 @@
-main[b-kzoljj2ouk] { 
+main[b-kzoljj2ouk] {
     display: flex;
-    box-shadow: 5px 5px 5px rgba(128, 128, 128, 0.493);
-}
-.map[b-kzoljj2ouk] {
-    width: 10rem;
-    height: 10rem;
+    margin:1rem 0.5rem 1rem;
+    box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(145, 145, 145, 0.308);
     border-radius: 0.5rem;
+}
+main:hover[b-kzoljj2ouk] {
+    transform: scale(101%);
+}
+
+.map[b-kzoljj2ouk] {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    width: 12.5rem;
+    height: 10rem;
     z-index: -1;
+}
+
+.content[b-kzoljj2ouk] {
+    padding: 0.5rem;
 }

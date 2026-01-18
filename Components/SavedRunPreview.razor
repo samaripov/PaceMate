@@ -1,11 +1,15 @@
 @using PaceMate.Objects
 @using System.Globalization
+@using System.Runtime.InteropServices
+@using System.Reflection.Emit
 @inject IJSRuntime JSRuntime
 
 <main>
     <div id="@Date" class="map"></div>
-    <p>@convertStringToDateTime(Date)</p>
-    <p>@savedRun.Distance @savedRun.DistanceUnit</p>
+    <div class="content">
+        <p>@convertStringToDateTime()</p>
+        <p>@parseDistanceLabel()</p>
+    </div>
 </main>
 
 @code {
@@ -13,16 +17,80 @@
     public string Date { get; set; } = "";
     [Parameter]
     public SavedRun savedRun { get; set; } = new SavedRun();
-
-    private DateTime convertStringToDateTime(string dateString)
+    private string convertStringToDateTime()
     {
-        string format = "ddd MMM dd yyyy HH:mm:ss 'GMT'zzz '(Eastern Standard Time)'";
+        DateTime dateTime = DateTime.Parse(Date, null, System.Globalization.DateTimeStyles.RoundtripKind);
 
-        DateTime dateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+        var day = dateNumEnding(dateTime.Day);
+        var month = numToMonthName(dateTime.Month);
+        var date = $"{month} {day}, {dateTime.Year}";
 
-        return dateTime;
+        return $"{date} @ {dateTime.Hour}:{dateTime.Minute}";
     }
-
+    private string dateNumEnding(int dayOfMonth)
+    {
+        switch (dayOfMonth)
+        {
+            case 1:
+            case 21:
+            case 31:
+                return $"{dayOfMonth}st";
+            case 2:
+            case 22:
+                return $"{dayOfMonth}nd";
+            case 3:
+            case 23:
+                return $"{dayOfMonth}rd";
+            default:
+                return $"{dayOfMonth}th";
+        }
+    }
+    private string numToMonthName(int monthNumber)
+    {
+        switch (monthNumber)
+        {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                throw new ArgumentOutOfRangeException("monthNumber", "Month number must be between 1 and 12.");
+        }
+    }
+    private string parseDistanceLabel()
+    {
+        var label = "";
+        if (savedRun.Distance < 1)
+        {
+            var distanceInMeters = savedRun.Distance * 1000;
+            label = $"{distanceInMeters:F0}m";
+        }
+        else
+        {
+            label = $"{savedRun.Distance:F2}km";
+        }
+        return label;
+    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
