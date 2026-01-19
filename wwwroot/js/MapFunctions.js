@@ -72,18 +72,22 @@ window.fitAndDrawPathOnMap = (mapId, pathCoordsJSONString) => {
             coordinate1.Latitude,
             coordinate1.Longitude,
             coordinate2.Latitude,
-            coordinate2.Longitude
+            coordinate2.Longitude,
+            true
         );
         bounds.extend(newLine.getLatLngs());
-    }   
+    }
     window.maps[mapId].fitBounds(bounds);
 }
 
-window.drawLine = (mapId, lat1, lon1, lat2, lon2) => {
+window.drawLine = (mapId, lat1, lon1, lat2, lon2, returnLine = false) => {
     const latLng1 = [lat1, lon1];
     const latLng2 = [lat2, lon2];
 
-    return L.polyline([latLng1, latLng2], { color: "#1cc2ff" }).addTo(window.maps[mapId]);
+    const line = L.polyline([latLng1, latLng2], { color: "#1cc2ff" }).addTo(window.maps[mapId]);
+    if (returnLine) {
+        return line;
+    }
 }
 
 window.updateCursor = (lat1, lon1, lat2, lon2) => {
