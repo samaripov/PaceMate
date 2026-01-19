@@ -1,14 +1,16 @@
-main[b-kzoljj2ouk] {
+a[b-kzoljj2ouk] {
     display: flex;
     margin:1rem 0.5rem 1rem;
     box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(145, 145, 145, 0.308);
     border-radius: 0.5rem;
+    text-decoration: none;
+
 }
-main:hover[b-kzoljj2ouk] {
+a:hover[b-kzoljj2ouk] {
     transform: scale(101%);
 }
 
-main p[b-kzoljj2ouk] {
+a p[b-kzoljj2ouk] {
     margin: 0;
 }
 .horizontal-container[b-kzoljj2ouk] {

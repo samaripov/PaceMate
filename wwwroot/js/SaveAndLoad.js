@@ -22,3 +22,10 @@ window.saveRun = (newRun) => {
 }
 
 window.getSavedRuns = () => localStorage.getItem("savedRuns");
+
+window.getSavedRunByDate = (date) => {
+    console.log(date);
+    const lastSave = window.getSavedRuns();
+    const saveJSON = lastSave ? JSON.parse(lastSave) : null;
+    return saveJSON ? JSON.stringify(saveJSON["SavedRuns"][date]) : "";
+};

@@ -1,14 +1,16 @@
-main {
+a {
     display: flex;
     margin:1rem 0.5rem 1rem;
     box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(145, 145, 145, 0.308);
     border-radius: 0.5rem;
+    text-decoration: none;
+
 }
-main:hover {
+a:hover {
     transform: scale(101%);
 }
 
-main p {
+a p {
     margin: 0;
 }
 .horizontal-container {

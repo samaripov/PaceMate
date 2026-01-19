@@ -4,7 +4,7 @@
 @using System.Reflection.Emit
 @inject IJSRuntime JSRuntime
 
-<main>
+<a href="/run/details/@(Date)">
     <div id="@Date" class="map"></div>
     <div class="content">
         <p>@convertStringToDateTime()</p>
@@ -14,7 +14,7 @@
         </div>
         <p>@parseTimeLabel()</p>
     </div>
-</main>
+</a>
 
 @code {
     [Parameter]
@@ -99,7 +99,6 @@
     {
         return $"{savedRun.AvgSpeed:F2} {savedRun.SpeedUnit.ToLower()}";
     }
-
     private string parseTimeLabel()
     {
         var timeParts = savedRun.Time;
