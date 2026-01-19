@@ -4,7 +4,7 @@
 @inject IJSRuntime JSRuntime
 
 <main>
-    <p>@runDateString</p>
+    <div id="largeMap"></div>
     <p>@savedRunObject.Distance @savedRunObject.DistanceUnit</p>
     <p>@savedRunObject.AvgSpeed @savedRunObject.SpeedUnit</p>
 </main>
@@ -17,7 +17,6 @@
     protected override async Task OnInitializedAsync()
     {
         var jsonString = await JSRuntime.InvokeAsync<string>("getSavedRunByDate", runDateString);
-        Console.WriteLine(jsonString);
         savedRunObject = JsonSerializer.Deserialize<SavedRun>(jsonString)!;
         StateHasChanged();
     }

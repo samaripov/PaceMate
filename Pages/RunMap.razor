@@ -12,7 +12,7 @@
 
 <PageTitle>Run Map</PageTitle>
 <main>
-    <div id="liveMap" class="map"></div>
+    <div id="largeMap" class="map"></div>
     <div class="info-container">
         <div class="timer-container">
             <p class="timer-large">@(time[0] != "00" ? $"{time[0]} : " : "")</p>
@@ -140,7 +140,7 @@
         lastSignalTime = DateTime.Now;
 
         await getLocation();
-        await moveLocationMarker("liveMap");
+        await moveLocationMarker("largeMap");
 
         //Adding the coordinates to the list
         lastTwoCoordinates[0] = lastTwoCoordinates[1];
@@ -169,7 +169,7 @@
         }
 
         //Update user position
-        await drawLine("liveMap");
+        await drawLine("largeMap");
         StateHasChanged();
     }
     private void calculateTheSpeed(TimeSpan elapsedTime)
@@ -237,7 +237,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("initializeMap", "liveMap", 0, 0);
+            await JSRuntime.InvokeVoidAsync("initializeMap", "largeMap", 0, 0);
         }
     }
 
