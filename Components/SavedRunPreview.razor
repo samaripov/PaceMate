@@ -8,7 +8,11 @@
     <div id="@Date" class="map"></div>
     <div class="content">
         <p>@convertStringToDateTime()</p>
-        <p>@parseDistanceLabel()</p>
+        <div class="horizontal-container">
+            <p>@parseDistanceLabel()</p>
+            <p>@parseSpeedLabel()</p>
+        </div>
+        <p>@parseTimeLabel()</p>
     </div>
 </main>
 
@@ -90,6 +94,20 @@
             label = $"{savedRun.Distance:F2}km";
         }
         return label;
+    }
+    private string parseSpeedLabel()
+    {
+        return $"{savedRun.AvgSpeed:F2} {savedRun.SpeedUnit.ToLower()}";
+    }
+
+    private string parseTimeLabel()
+    {
+        var timeParts = savedRun.Time;
+        var hour = timeParts[0] != "00" ? $"{timeParts[0]}hr" : "";
+        var minute = timeParts[1] != "00" ? $"{timeParts[1]}min" : "";
+        var second = timeParts[2] != "00" ? $"{timeParts[2]}sec" : "";
+
+        return $"{hour}{minute}{second} {timeParts[3]}ms";
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

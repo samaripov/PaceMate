@@ -8,14 +8,24 @@ main:hover[b-kzoljj2ouk] {
     transform: scale(101%);
 }
 
+main p[b-kzoljj2ouk] {
+    margin: 0;
+}
+.horizontal-container[b-kzoljj2ouk] {
+    display: flex;
+    justify-content: space-between;
+}
 .map[b-kzoljj2ouk] {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
-    width: 12.5rem;
+    width: 10rem;
     height: 10rem;
     z-index: -1;
 }
 
 .content[b-kzoljj2ouk] {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 0.5rem;
 }
