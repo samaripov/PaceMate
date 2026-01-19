@@ -4,20 +4,30 @@
 @inject IJSRuntime JSRuntime
 
 <main>
-    <div id="largeMap"></div>
-    <p>@savedRunObject.Distance @savedRunObject.DistanceUnit</p>
-    <p>@savedRunObject.AvgSpeed @savedRunObject.SpeedUnit</p>
+    <div id="largeMap" class="map"></div>
+    <p>@savedRun.Distance @savedRun.DistanceUnit</p>
+    <p>@savedRun.AvgSpeed @savedRun.SpeedUnit</p>
 </main>
 
 @code {
     [Parameter]
     public string runDateString { get; set; } = "";
 
-    private SavedRun savedRunObject = new SavedRun();
-    protected override async Task OnInitializedAsync()
+    private SavedRun savedRun = new SavedRun();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        var jsonString = await JSRuntime.InvokeAsync<string>("getSavedRunByDate", runDateString);
-        savedRunObject = JsonSerializer.Deserialize<SavedRun>(jsonString)!;
-        StateHasChanged();
+        if (firstRender)
+        {
+            var jsonString = await JSRuntime.InvokeAsync<string>("getSavedRunByDate", runDateString);
+            savedRun = JsonSerializer.Deserialize<SavedRun>(jsonString)!;
+
+            var latitude = $"{savedRun.Path[0].Latitude}";
+            var longitude = $"{savedRun.Path[0].Longitude}";
+            await JSRuntime.InvokeVoidAsync("initializeMap", "largeMap", latitude, longitude);
+
+            var pathJSONString = JsonSerializer.Serialize(savedRun.Path);
+            await JSRuntime.InvokeVoidAsync("fitAndDrawPathOnMap", "largeMap", pathJSONString);
+            StateHasChanged();
+        }
     }
 }

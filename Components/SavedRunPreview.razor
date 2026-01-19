@@ -6,7 +6,7 @@
 @inject IJSRuntime JSRuntime
 
 <a href="/run/details/@(Date)">
-    <div id="@mapLabel" class="map"></div>
+    <div id="@($"{Date}-Preview")" class="map"></div>
     <div class="content">
         <p>@convertStringToDateTime()</p>
         <div class="horizontal-container">
@@ -110,10 +110,6 @@
 
         return $"{hour}{minute}{second} {timeParts[3]}ms";
     }
-    private void OInitialized()
-    {
-        mapLabel = $"{Date}-Preview";
-    }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -121,10 +117,10 @@
             //Initialize the map
             var latitude = $"{savedRun.Path[0].Latitude}";
             var longitude = $"{savedRun.Path[0].Longitude}";
-            await JSRuntime.InvokeVoidAsync("initializeMap", mapLabel, latitude, longitude, false);
+            await JSRuntime.InvokeVoidAsync("initializeMap", $"{Date}-Preview", latitude, longitude, false);
 
             var pathJSONString = JsonSerializer.Serialize(savedRun.Path);
-            await JSRuntime.InvokeVoidAsync("fitAndDrawPathOnMap", mapLabel, pathJSONString);
+            await JSRuntime.InvokeVoidAsync("fitAndDrawPathOnMap", $"{Date}-Preview", pathJSONString);
         }
     }
 }
