@@ -1,4 +1,4 @@
-window.getCurrentLocation = async () => {
+window.getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -50,7 +50,7 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
     }
 }
 
-window.moveLocationMarker = async (mapId, latitude, longitude) => {
+window.moveLocationMarker = (mapId, latitude, longitude) => {
     if (window.marker) {
         window.marker.setLatLng([latitude, longitude]);
         window.maps[mapId].setView([latitude, longitude], 22);
@@ -59,13 +59,34 @@ window.moveLocationMarker = async (mapId, latitude, longitude) => {
     }
 }
 
-window.drawLine = async (mapId, lat1, lon1, lat2, lon2) => {
-    const latLng1 = [lat1, lon1];
-    const latLng2 = [lat2, lon2];
-    L.polygon([latLng1, latLng2]).addTo(window.maps[mapId]);
+window.fitAndDrawPathOnMap = (mapId, pathCoordsJSONString) => {
+    const path = JSON.parse(pathCoordsJSONString);
+    const bounds = L.latLngBounds();
+
+    for (let i = 1; i < path.length; i++) {
+        const coordinate1 = path[i];
+        const coordinate2 = path[i - 1];
+
+        const newLine = window.drawLine(
+            mapId,
+            coordinate1.Latitude,
+            coordinate1.Longitude,
+            coordinate2.Latitude,
+            coordinate2.Longitude
+        );
+        bounds.extend(newLine.getLatLngs());
+    }   
+    window.maps[mapId].fitBounds(bounds);
 }
 
-window.updateCursor = async (lat1, lon1, lat2, lon2) => {
+window.drawLine = (mapId, lat1, lon1, lat2, lon2) => {
+    const latLng1 = [lat1, lon1];
+    const latLng2 = [lat2, lon2];
+
+    return L.polyline([latLng1, latLng2], { color: "#1cc2ff" }).addTo(window.maps[mapId]);
+}
+
+window.updateCursor = (lat1, lon1, lat2, lon2) => {
     if (!(lat1 == lat2 && lon1 == lon2)) {
         const rotation = calculateRotation(lat1, lon1, lat2, lon2);
         window.marker.setIcon(createLocationMarkerIcon(rotation));

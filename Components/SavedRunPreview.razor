@@ -2,6 +2,7 @@
 @using System.Globalization
 @using System.Runtime.InteropServices
 @using System.Reflection.Emit
+@using System.Text.Json
 @inject IJSRuntime JSRuntime
 
 <a href="/run/details/@(Date)">
@@ -113,34 +114,12 @@
         if (firstRender)
         {
             //Initialize the map
-            var initialLatitudeString = $"{savedRun.Path[0].Latitude}";
-            var initialLongitudeString = $"{savedRun.Path[0].Longitude}";
-            await InitializeMap(Date, initialLatitudeString, initialLongitudeString);
+            var latitude = $"{savedRun.Path[0].Latitude}";
+            var longitude = $"{savedRun.Path[0].Longitude}";
+            await JSRuntime.InvokeVoidAsync("initializeMap", Date, latitude, longitude, false);
 
-
-            //Draw the path on the map
-            var lineStartLatitude = "";
-            var lineStartLongitude = "";
-            foreach (Coordinates pathCoords in savedRun.Path)
-            {
-                if (lineStartLatitude != "" && lineStartLongitude != "")
-                {
-                    await JSRuntime.InvokeAsync<Coordinates>(
-                    "drawLine",
-                    Date,
-                    lineStartLatitude,
-                    lineStartLongitude,
-                    pathCoords.Latitude,
-                    pathCoords.Longitude
-                    );
-                }
-                lineStartLatitude = $"{pathCoords.Latitude}";
-                lineStartLongitude = $"{pathCoords.Longitude}";
-            }
+            var pathJSONString = JsonSerializer.Serialize(savedRun.Path);
+            await JSRuntime.InvokeVoidAsync("fitAndDrawPathOnMap", Date, pathJSONString);
         }
-    }
-    private async Task InitializeMap(string mapId, string latitude, string longitude)
-    {
-        await JSRuntime.InvokeVoidAsync("initializeMap", mapId, latitude, longitude, false);
     }
 }
