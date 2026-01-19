@@ -30,7 +30,7 @@
             <div class="progress-bar-container">
                 <div style="width: @goalState.untilGoalReachedPercent()%;" class="progress-bar"></div>
                 <div>
-                    <p>@goalState.untilGoalReachedPercent()%</p>
+                    <p>@($"{goalState.untilGoalReachedPercent():F2}")%</p>
                     <p>@goalState.untilGoalReachedLabel()</p>
                 </div>
             </div>
@@ -237,7 +237,7 @@
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("initializeMap", "largeMap", 0, 0);
+            await JSRuntime.InvokeVoidAsync("initializeMap", "largeMap", 0, 0, false, true);
         }
     }
 

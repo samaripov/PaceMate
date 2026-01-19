@@ -86,6 +86,7 @@
     {
         if (inputNumber.HasValue)
         {
+            goalState.resetState();
             goalState.distanceGoal = unit == "meters" ? inputNumber / 1000 : inputNumber;
             Navigation.NavigateTo("/run");
         }

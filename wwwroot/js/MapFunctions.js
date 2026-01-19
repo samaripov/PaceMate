@@ -19,7 +19,7 @@ window.getCurrentLocation = () => {
     });
 }
 
-window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) => {
+window.initializeMap = async (mapId, latitude, longitude, isInteractive = true, renderMarker = false) => {
     try {
         latitude = parseFloat(latitude);
         longitude = parseFloat(longitude);
@@ -43,13 +43,17 @@ window.initializeMap = async (mapId, latitude, longitude, isInteractive = true) 
             attribution: '© OpenStreetMap contributors'
         }).addTo(window.maps[mapId]);
 
-        window.marker = L.marker([latitude, longitude]).addTo(window.maps[mapId]);
-        await window.moveLocationMarker(latitude, longitude);
+        if (renderMarker) {
+            window.initializeMarker(mapId, latitude, longitude);
+        }
     } catch (error) {
         console.error("Error fetching location:", error);
     }
 }
-
+window.initializeMarker = async (mapId, latitude, longitude) => {
+    window.marker = L.marker([latitude, longitude]).addTo(window.maps[mapId]);
+    await window.moveLocationMarker(latitude, longitude);
+}
 window.moveLocationMarker = (mapId, latitude, longitude) => {
     if (window.marker) {
         window.marker.setLatLng([latitude, longitude]);
