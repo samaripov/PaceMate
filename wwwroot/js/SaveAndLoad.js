@@ -1,18 +1,9 @@
 window.saveRun = (newRun) => {
-    console.log(newRun);
     const lastSave = window.getSavedRuns();
     const saveJSON = lastSave ? JSON.parse(lastSave) : { "SavedRuns": {} };
     const newRunJSON = JSON.parse(newRun);
 
     const date = new Date();
-    const offsetHours = -date.getTimezoneOffset() / 60;
-    const offsetMinutes = Math.abs(date.getTimezoneOffset() % 60);
-
-    // Format the offset hours and minutes with padded zeros
-    const formattedOffsetHours = String(Math.abs(offsetHours)).padStart(2, '0');
-    const formattedOffsetMinutes = String(offsetMinutes).padStart(2, '0');
-
-    const timezoneOffset = `${offsetHours >= 0 ? '-' : '+'}${formattedOffsetHours}:${formattedOffsetMinutes}`;
     const standardizedDate = date.toISOString().replace("Z", "+00:00");
 
     saveJSON["SavedRuns"][standardizedDate] = newRunJSON;
@@ -24,7 +15,6 @@ window.saveRun = (newRun) => {
 window.getSavedRuns = () => localStorage.getItem("savedRuns");
 
 window.getSavedRunByDate = (date) => {
-    console.log(date);
     const lastSave = window.getSavedRuns();
     const saveJSON = lastSave ? JSON.parse(lastSave) : null;
     return saveJSON ? JSON.stringify(saveJSON["SavedRuns"][date]) : "";
